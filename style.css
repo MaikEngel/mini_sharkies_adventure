@@ -1,0 +1,12 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 90vh;
+    font-family: 'Luckiest Guy';
+}
+
+canvas {
+    background-color: black;
+}

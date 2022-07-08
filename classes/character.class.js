@@ -8,7 +8,10 @@ class Character extends MovableObject {
     pressedC = false;
     pressedSpace = false;
     timeout = 1200;
+    currentBubbleImage = 0;
+    currentSlapImage = 0;
 
+    testi = true;
 
     IMAGES_IDLE = [
         'img/1.Sharkie/1.IDLE/1.png',
@@ -76,11 +79,33 @@ class Character extends MovableObject {
     }
 
 
-    playAttackAnimation(images) {
-        let i = this.currentImage % images.length;
+    playBubbleAnimation(images) {
+        let i = this.currentBubbleImage % images.length;
+        if (i == images.length) {
+            this.firstImage = true
+        }
+        if (i > 0 && this.firstImage == true) {
+            this.currentSlapImage = 0
+            this.firstImage = false;
+        }
         let path = images[i];
         this.img = this.imageCatch[path];
-        this.currentImage++;
+        this.currentBubbleImage++;
+    }
+
+    playSlapAnimation(images) {
+        let i = this.currentSlapImage % images.length;
+        if (i == images.length) {
+            this.firstImage = true
+        }
+        if (i > 0 && this.firstImage == true) {
+            this.currentSlapImage = 0
+            this.firstImage = false;
+        }
+        let path = images[i];
+        this.img = this.imageCatch[path];
+        this.currentSlapImage++;
+
     }
 
     animate() {
@@ -96,15 +121,11 @@ class Character extends MovableObject {
 
         setInterval(() => {
             if (this.spaceKeyPressed()) {
-                this.pressedSpace = true;
-                this.playAttackAnimation(this.IMAGES_SLAP)
+                console.log('Im Interval')
+                this.playSlapAnimation(this.IMAGES_SLAP)
             }
             if (this.cKeyPressed()) {
-                console.log('Im Interval')
-                this.pressedC = true;
-                for (let i = 0; i < this.IMAGES_BUBBLE.length; i++) {
-                    this.playAttackAnimation(this.IMAGES_BUBBLE)
-                };
+                this.playBubbleAnimation(this.IMAGES_BUBBLE)
             }
         }, 150);
 

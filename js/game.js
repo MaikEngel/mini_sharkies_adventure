@@ -1,8 +1,8 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
-let timeoutC = 600;
-let timeoutSpace = 580;
+let timeoutC = 1150;
+let timeoutSpace = 1150;
 
 function init() {
     canvas = document.getElementById('canvas');
@@ -23,7 +23,6 @@ window.addEventListener('keydown', (event) => {
         keyboard.DOWN = true;
     }
     if(event.code == "KeyC") {
-        timeoutC = 600;
         keyboard.C = true;
     }
     if(event.code == "ShiftLeft") {

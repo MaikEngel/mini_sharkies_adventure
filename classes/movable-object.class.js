@@ -8,13 +8,39 @@ class MovableObject {
     imageCatch = {}
     currentImage = 0;
     otherDirection = false;
-    position = 400; 
+    position = 400;
 
 
 
     loadImage(path) {
         this.img = new Image();
         this.img.src = path;
+    }
+
+    draw(ctx) {
+        ctx.drawImage(this.img, this.x, this.y, this.height, this.width);
+    }
+
+    drawFrame(ctx) {
+        if (this instanceof Character || this instanceof Enemy || this instanceof StandingEnemy || this instanceof Endboss) {
+            ctx.beginPath();
+            ctx.lineWidth = '5';
+            ctx.strokeStyle = 'blue';
+            ctx.rect(this.x, this.y, this.height, this.width)
+            ctx.stroke();
+        }
+    }
+
+    flipImage(ctx) {
+        ctx.save();
+        ctx.translate(this.width, 1);
+        ctx.scale(-1, 1);
+        this.x = this.x * -1;
+    }
+
+    flipImageBack(ctx) {
+        this.x = this.x * -1;
+        ctx.restore();
     }
 
 
@@ -30,11 +56,22 @@ class MovableObject {
         });
     }
 
-
     moveLeft() {
-        setInterval(() => {
-            this.x -= this.speed;
-        }, 1000 / 60);
+        this.x -= this.speed;
+    }
+
+    moveRight() {
+        this.x += this.speed;
+
+    }
+
+    moveUp() {
+        this.y -= this.speed;
+    }
+
+    moveDown() {
+        this.y += this.speed;
+
     }
 
     playAnimation(images) {
@@ -59,7 +96,7 @@ class MovableObject {
 
     rightKeyPressed() {
         return this.world.keyboard.RIGHT == true;
-        
+
     }
 
     downKeyPressed() {
@@ -72,6 +109,10 @@ class MovableObject {
 
     cKeyPressed() {
         return this.world.keyboard.C == true;
+    }
+
+    shiftLeftKeyPressed() {
+        return this.world.keyboard.ShiftLeft == true;
     }
 
     spaceKeyPressed() {

@@ -1,6 +1,8 @@
 let canvas;
-let world
+let world;
 let keyboard = new Keyboard();
+let timeoutC = 600;
+let timeoutSpace = 580;
 
 function init() {
     canvas = document.getElementById('canvas');
@@ -21,7 +23,11 @@ window.addEventListener('keydown', (event) => {
         keyboard.DOWN = true;
     }
     if(event.code == "KeyC") {
+        timeoutC = 600;
         keyboard.C = true;
+    }
+    if(event.code == "ShiftLeft") {
+        keyboard.ShiftLeft = true;
     }
     if(event.code == "Space") {
         keyboard.SPACE = true;
@@ -42,9 +48,17 @@ window.addEventListener('keyup', (event) => {
         keyboard.DOWN = false;
     }
     if(event.code == "KeyC") {
-        keyboard.C = false;
+        setTimeout(() => {
+            keyboard.C = false;
+        }, timeoutC);
+    }
+    if(event.code == "ShiftLeft") {
+        keyboard.ShiftLeft = false;
+        
     }
     if(event.code == "Space") {
+        setTimeout(() => {
         keyboard.SPACE = false;
+    }, timeoutSpace);
     }
-})
+});

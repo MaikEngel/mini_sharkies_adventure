@@ -24,6 +24,8 @@ class Enemy extends MovableObject {
         setInterval(() => {
             this.playAnimation(this.IMAGES_SWIMMING)
         }, 100);
-        this.moveLeft()
+        setInterval(() => {
+            this.moveLeft()
+        }, 1000 / 60);
     }
 }

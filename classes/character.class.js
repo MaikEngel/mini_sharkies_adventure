@@ -5,8 +5,10 @@ class Character extends MovableObject {
     x = 20;
     y = 50;
     speed = 4;
-    beat = false;
-    attack = false;
+    pressedC = false;
+    pressedSpace = false;
+    timeout = 1200;
+
 
     IMAGES_IDLE = [
         'img/1.Sharkie/1.IDLE/1.png',
@@ -40,6 +42,8 @@ class Character extends MovableObject {
 
     IMAGES_SLAP = [
         'img/1.Sharkie/4.Attack/Fin slap/1.png',
+        'img/1.Sharkie/4.Attack/Fin slap/2.png',
+        'img/1.Sharkie/4.Attack/Fin slap/3.png',
         'img/1.Sharkie/4.Attack/Fin slap/4.png',
         'img/1.Sharkie/4.Attack/Fin slap/5.png',
         'img/1.Sharkie/4.Attack/Fin slap/6.png',
@@ -68,8 +72,15 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_SLAP);
         this.loadImages(this.IMAGES_BUBBLE);
 
-
         this.animate();
+    }
+
+
+    playAttackAnimation(images) {
+        let i = this.currentImage % images.length;
+        let path = images[i];
+        this.img = this.imageCatch[path];
+        this.currentImage++;
     }
 
     animate() {
@@ -81,57 +92,58 @@ class Character extends MovableObject {
             if (this.noKeyPressed()) {
                 this.playAnimation(this.IMAGES_IDLE)
             }
-
-            if (this.cKeyPressed() || this.attack === true) {
-                this.playAnimation(this.IMAGES_BUBBLE)
-            }
-
-            if (this.spaceKeyPressed() || this.attack === true && this.beat == false) {
-                this.beat = true
-                this.playAnimation(this.IMAGES_SLAP)
-            }
-
-
-
-            // if (this.beat == true) {
-            //     setTimeout(() => {
-            //         this.beat == false;
-            //     }, 1000);
-            // }
         }, 150);
 
         setInterval(() => {
-
-        }, 200);
-
+            if (this.spaceKeyPressed()) {
+                this.pressedSpace = true;
+                this.playAttackAnimation(this.IMAGES_SLAP)
+            }
+            if (this.cKeyPressed()) {
+                console.log('Im Interval')
+                this.pressedC = true;
+                for (let i = 0; i < this.IMAGES_BUBBLE.length; i++) {
+                    this.playAttackAnimation(this.IMAGES_BUBBLE)
+                };
+            }
+        }, 150);
 
         setInterval(() => {
             if (this.rightKeyPressed() && this.x < this.world.level.level_end_x) {
-                this.x += this.speed;
+                this.moveRight()
                 this.otherDirection = false;
                 this.swim_sound.play();
             }
 
             if (this.leftKeyPressed() && this.x > 0) {
-                this.x -= this.speed;
+                this.moveLeft()
                 this.otherDirection = true;
                 this.swim_sound.play();
 
             }
 
             if (this.upKeyPressed() && this.y > -110) {
-                this.y -= this.speed;
+                this.moveUp()
                 this.swim_sound.play();
-
             }
 
             if (this.downKeyPressed() && this.y < 250) {
-                this.y += this.speed;
+                this.moveDown()
                 this.swim_sound.play();
+            }
+
+            if (this.shiftLeftKeyPressed()) {// Speed up the Character
+                this.speed = 8;
+            }
+
+            if (!this.shiftLeftKeyPressed()) {// Normal speed 
+                this.speed = 4;
             }
 
             this.world.camera_x = -this.x;
         }, 1000 / 60);
+
     }
+
 
 }

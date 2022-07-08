@@ -11,7 +11,7 @@ class Character extends MovableObject {
     currentBubbleImage = 0;
     currentSlapImage = 0;
 
-    testi = true;
+    firstImage = true;
 
     IMAGES_IDLE = [
         'img/1.Sharkie/1.IDLE/1.png',
@@ -83,9 +83,11 @@ class Character extends MovableObject {
         let i = this.currentBubbleImage % images.length;
         if (i == images.length) {
             this.firstImage = true
+        this.currentSlapImage = 0
+            
         }
         if (i > 0 && this.firstImage == true) {
-            this.currentSlapImage = 0
+            this.currentBubbleImage = 0
             this.firstImage = false;
         }
         let path = images[i];
@@ -97,6 +99,8 @@ class Character extends MovableObject {
         let i = this.currentSlapImage % images.length;
         if (i == images.length) {
             this.firstImage = true
+        this.currentSlapImage = 0
+
         }
         if (i > 0 && this.firstImage == true) {
             this.currentSlapImage = 0
@@ -105,7 +109,6 @@ class Character extends MovableObject {
         let path = images[i];
         this.img = this.imageCatch[path];
         this.currentSlapImage++;
-
     }
 
     animate() {
@@ -121,7 +124,6 @@ class Character extends MovableObject {
 
         setInterval(() => {
             if (this.spaceKeyPressed()) {
-                console.log('Im Interval')
                 this.playSlapAnimation(this.IMAGES_SLAP)
             }
             if (this.cKeyPressed()) {

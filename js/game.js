@@ -47,17 +47,13 @@ window.addEventListener('keyup', (event) => {
         keyboard.DOWN = false;
     }
     if(event.code == "KeyC") {
-        setTimeout(() => {
             keyboard.C = false;
-        }, timeoutC);
     }
     if(event.code == "ShiftLeft") {
         keyboard.ShiftLeft = false;
         
     }
     if(event.code == "Space") {
-        setTimeout(() => {
         keyboard.SPACE = false;
-    }, timeoutSpace);
     }
 });

@@ -1,35 +1,26 @@
-class MovableObject {
-    x = 120;
-    y = 250;
+class MovableObject extends DrawableObject {
     speed = 1;
-    img;
-    height = 100;
-    width = 150;
-    imageCatch = {}
-    currentImage = 0;
+    speedY = 0;
+    speedX = 0;
     otherDirection = false;
     position = 400;
+    energy = 100;
+    coinAmount = 0;
+    poison;
+    dead = false;
+    acceleration = -1;
+    pressure = 9;
+    lastCollect = 0;
+    lastHit = 0;
+
+    offsetRight = 0;
+    offsetBottom = 0;
+    offsetLeft = 0;
+    offsetTop = 0;
+
+    
 
 
-
-    loadImage(path) {
-        this.img = new Image();
-        this.img.src = path;
-    }
-
-    draw(ctx) {
-        ctx.drawImage(this.img, this.x, this.y, this.height, this.width);
-    }
-
-    drawFrame(ctx) {
-        if (this instanceof Character || this instanceof Enemy || this instanceof StandingEnemy || this instanceof Endboss) {
-            ctx.beginPath();
-            ctx.lineWidth = '5';
-            ctx.strokeStyle = 'blue';
-            ctx.rect(this.x, this.y, this.height, this.width)
-            ctx.stroke();
-        }
-    }
 
     flipImage(ctx) {
         ctx.save();
@@ -43,17 +34,33 @@ class MovableObject {
         ctx.restore();
     }
 
+    hit() {
+        this.energy -= 20;
+        if (this.energy <= 0) {
+            this.energy = 0;
+        } else {
+            this.lastHit = new Date().getTime();
+        }
+    }
 
-    /**
-     * 
-     * @param {Array} arr - ['img/image1.png', 'img/image2.png', ...]
-     */
-    loadImages(arr) {
-        arr.forEach((path) => {
-            let img = new Image()
-            img.src = path;
-            this.imageCatch[path] = img;
-        });
+    isHurt() {
+        let timepassed = new Date().getTime() - this.lastHit;
+        timepassed = timepassed / 1000;
+        return timepassed < 0.75;
+    }
+
+    
+    collectCoin() {
+        this.coinAmount++;
+        console.log(this.coinAmount)
+    }
+
+    collectPoison() {
+        this.poison++
+    }
+
+    isDead() {
+        return this.energy <= 0;
     }
 
     moveLeft() {
@@ -79,6 +86,42 @@ class MovableObject {
         let path = images[i];
         this.img = this.imageCatch[path];
         this.currentImage++;
+    }
+
+    playDeadAnimation(images) {
+        let i = this.currentImage % images.length;
+        if (i >= images.length - 1) {
+            let path = images[images.length - 1];
+            this.img = this.imageCatch[path];
+            this.dead = true;
+        } else {
+            let path = images[i];
+            this.img = this.imageCatch[path];
+            this.currentImage++;
+        }
+    }
+
+    playBarAnimation(images) {
+        this.img = this.imageCatch[images];
+    }
+
+    isColliding(mo) {
+        return this.x + this.width - this.offsetRight > mo.x + mo.offsetLeft && this.y + this.height - this.offsetBottom > mo.y + mo.offsetTop && this.x + this.offsetLeft < mo.x + mo.width -mo.offsetRight && this.y + this.offsetTop < mo.y + mo.height -mo.offsetBottom
+    }
+
+
+    applyAir() {
+        setInterval(() => {
+            this.y -= this.speedY;
+            this.speedY -= this.acceleration;
+        }, 1000 / 25);
+    }
+
+    applyPressure() {
+        setInterval(() => {
+            this.x += this.speedX;
+            this.x -= this.pressure;
+        }, 1000 / 25);
     }
 
     noKeyPressed() {
@@ -117,5 +160,63 @@ class MovableObject {
 
     spaceKeyPressed() {
         return this.world.keyboard.SPACE == true;
+    }
+
+    lifeBar(life) {
+        if (this.energy == 100) {
+            this.playBarAnimation(life[5]);
+        }
+
+        if (this.energy == 80) {
+            this.playBarAnimation(life[4]);
+        }
+
+        if (this.energy == 60) {
+            this.playBarAnimation(life[3]);
+        }
+
+        if (this.energy == 40) {
+            this.playBarAnimation(life[2]);
+        }
+
+        if (this.energy == 20) {
+            this.playBarAnimation(life[1]);
+        }
+
+        if (this.energy == 0) {
+            this.playBarAnimation(life[0]);
+        }
+    }
+
+    coinBar(coin) {
+        if (this.coinAmount >= 5) {
+            this.playBarAnimation(coin[5]);
+            console.log('5', this.coinAmount)
+        }
+
+        if (this.coinAmount == 4) {
+            this.playBarAnimation(coin[4]);
+            console.log('4',this.coinAmount)
+        }
+
+        if (this.coinAmount == 3) {
+            this.playBarAnimation(coin[3]);
+            console.log('3',this.coinAmount)
+        }
+
+        if (this.coinAmount == 2) {
+            this.playBarAnimation(coin[2]);
+            console.log('2',this.coinAmount)
+        }
+
+        if (this.coinAmount == 1) {
+            this.playBarAnimation(coin[1]);
+            console.log('1',this.coinAmount)
+        }
+
+        if (this.coinAmount == 0) {
+            this.playBarAnimation(coin[0]);
+            console.log('0',this.coinAmount)
+        }
     }
 }

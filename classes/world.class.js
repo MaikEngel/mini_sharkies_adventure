@@ -5,14 +5,15 @@ class World {
     statusbar = new Statusbar();
     coinbar = new Coinbar();
     poisonbar = new Poisonbar();
-    bubble = new ThrowableObject();
+
+    firstContact = false;
+
     canvas;
     ctx;
     keyboard;
     camera_x = 0;
     background_music = new Audio('audio/backgroundmusic.mp3');
     throwableObject = [];
-    checkBubble = false;
     coolDownSlap = false
     coolDownBubble = false;
     dead = false;
@@ -23,10 +24,11 @@ class World {
     holdSlapAttack = false
 
     bubbleAttack = false;
-    bubbleShot = false;
+
+    spawn = false;
 
 
-
+    j = 0;
 
 
     constructor(canvas, keyboard) {
@@ -39,8 +41,12 @@ class World {
     }
 
     setWorld() {
-        this.character.world = this;
+        this.character.World = this;
+        this.endboss.World = this;
     }
+    
+
+
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);  // clears the canvas, otherwise charakter and enemies would double after every move.
@@ -82,35 +88,35 @@ class World {
     run() {
         setInterval(() => {
             this.checkCollision();
-            this.checkThowobjects();
+            this.checkThrowobjects();
             this.checkCollisionCoin();
             this.checkCollisionPoison();
             this.checkCollisionHeart()
             this.checkCharacterPosition()
+            this.checkSlap()
+            // this.checkBubble()
         }, 1000 / 25);
     }
 
-    checkThowobjects() {
+    checkThrowobjects() {
         if (this.dead == true) {
             return false;
         } else {
             if (this.character.world.keyboard.C == true && this.coolDownBubble == false && this.bubbleAttack == false && this.character.poison > 0) {
                 this.bubbleAttack = true;
                 this.coolDownBubble = true;
-                console.log(this.throwableObject.x)
-
                 setTimeout(() => {
                     this.bubbleAttack = false;
                 }, 500);
                 setTimeout(() => {
                     let bubble = new ThrowableObject(this.character.x + 150, this.character.y + 130)
                     this.throwableObject.push(bubble);
+                    console.log(this.throwableObject)
                     this.poisonbar.losePoison();
                     this.character.losePoison();
                     setTimeout(() => {
                         this.coolDownBubble = false;
                     }, 1100);
-
                 }, 1100);
             }
         }
@@ -130,18 +136,43 @@ class World {
                         this.invulnerable = false;
                     }, 1000);
                 }
+
+            }
+        })
+    }
+
+
+
+    checkSlap() {
+        this.level.enemies.forEach((enemy, i) => {
+            if (this.dead == true) {
+                return true;
+            } else {
                 if (this.holdSlapAttack == true && this.character.isColliding(enemy)) {
                     if ((enemy instanceof Endboss)) {
                         return true
-                    }else{
+                    } else {
                         this.level.enemies.splice(i, 1)
                     }
                 }
-                if (this.bubbleShot == true && this.bubble.isColliding(enemy)) {
-                    if (enemy instanceof Endboss) {
+            }
+        })
+    }
+
+    checkBubble() {
+        this.level.enemies.forEach((enemy, i) => {
+            if (this.dead == true) {
+                return true;
+            } else {
+                if (this.throwableObject[0].isColliding(enemy)) {
+                    if ((enemy instanceof Endboss)) {
+                        return true
+                    } else {
                         this.level.enemies.splice(i, 1)
                     }
                 }
+                this.j++
+                console.log(this.j)
             }
         })
     }
@@ -165,6 +196,7 @@ class World {
                 return true;
             } else {
                 if (this.character.isColliding(heart)) {
+                    this.character.collectHeart();
                     this.statusbar.collectHeart();
                     this.level.heart.splice(index, 1);
                 }
@@ -187,9 +219,9 @@ class World {
     }
 
     checkCharacterPosition() {
-        if (this.character.x > 1750 && !this.endboss.firstContact) {
-            this.endboss.testI = 0
-            this.endboss.firstContact = true;
+        console.log(this.endboss.spawn)
+        if (this.character.x > 1750) {
+            this.endboss.spawn = true
         }
     }
 
@@ -211,6 +243,5 @@ class World {
             mo.flipImageBack(this.ctx);
         }
     }
-
 
 }

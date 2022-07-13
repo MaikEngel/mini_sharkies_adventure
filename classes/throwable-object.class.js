@@ -18,5 +18,14 @@ class ThrowableObject extends MovableObject {
             this.applyAir();
         }, 2000);
     }
+
+    throwLeft() {
+        this.speedY = 20;
+        this.applyPressure();
+        setInterval(() => {
+            this.y -= this.speedY;
+            this.speedY -= this.acceleration;
+        }, 2000);
+    }
 }
 

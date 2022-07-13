@@ -7,6 +7,8 @@ class Enemy extends MovableObject {
     offsetLeft = 10;
     offsetTop = 10;
 
+    time = 6000 + Math.random() * 4000
+
     turnAround = false;
 
     IMAGES_SWIMMING = [
@@ -26,6 +28,7 @@ class Enemy extends MovableObject {
         this.speed = 0.25 + Math.random() * 0.5
         this.animate();
         this.changeDirection();
+
     }
 
     animate() {
@@ -34,9 +37,12 @@ class Enemy extends MovableObject {
         }, 100);
         setInterval(() => {
             if (this.turnAround == true) {
-                this.moveRight()
+                this.moveRight();
+                this.otherDirection = true;
             } else {
-                this.moveLeft()
+                this.moveLeft();
+                this.otherDirection = false;
+
             }
         }, 1000 / 60);
 
@@ -49,6 +55,6 @@ class Enemy extends MovableObject {
             } else {
                 this.turnAround = true;
             }
-        }, 10000);
+        }, this.time);
     }
 }

@@ -17,7 +17,6 @@ class MovableObject extends DrawableObject {
     offsetLeft = 0;
     offsetTop = 0;
 
-    testI = 0
 
 
     flipImage(ctx) {
@@ -71,7 +70,7 @@ class MovableObject extends DrawableObject {
     collectPoison() {
         this.poison++
         if (this.poison >= 5) {
-            poison = 5;
+            this.poison = 5;
         }
     }
 

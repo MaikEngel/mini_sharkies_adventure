@@ -2,15 +2,14 @@ class Endboss extends MovableObject {
     height = 500;
     width = 600;
     y = -120
-    testI = 0;
-    
-
-
 
     offsetRight = 30;
     offsetBottom = 50;
     offsetLeft = 50;
     offsetTop = 250;
+
+    testI = 0;
+
 
     IMAGES_SPAWN = [
         'img/2.Enemy/3 Final Enemy/1.Introduce/1.png',
@@ -22,8 +21,7 @@ class Endboss extends MovableObject {
         'img/2.Enemy/3 Final Enemy/1.Introduce/7.png',
         'img/2.Enemy/3 Final Enemy/1.Introduce/8.png',
         'img/2.Enemy/3 Final Enemy/1.Introduce/9.png',
-        'img/2.Enemy/3 Final Enemy/1.Introduce/10.png',
-
+        'img/2.Enemy/3 Final Enemy/1.Introduce/10.png'
     ]
 
     IMAGES_IDLE = [
@@ -43,25 +41,26 @@ class Endboss extends MovableObject {
     ]
 
     constructor() {
-        super().loadImage(this.IMAGES_IDLE[0]);
-        this.loadImages(this.IMAGES_SPAWN);
+        super().loadImage(this.IMAGES_SPAWN[0]);
         this.loadImages(this.IMAGES_IDLE);
+        this.loadImages(this.IMAGES_SPAWN);
         this.x = 2000;
-        this.animate()
+        setTimeout(() => {
+            this.animate()
+        }, 100);
+       
     }
 
     animate() {
-
         setInterval(() => {
-
-            if (this.testI < 10) {
+            console.log(world?.spawn)
+            if (this.testI < 10 && this.spawn == true) {
                 this.playAnimation(this.IMAGES_SPAWN)
                 this.testI++
                 console.log(this.testI)
-            } if (this.testI >= 10) {
+            } if (this.testI >= 10 && this.spawn == true) {
                 this.playAnimation(this.IMAGES_IDLE)
             }
-
         }, 150);
     }
 }

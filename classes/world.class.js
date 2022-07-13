@@ -1,7 +1,7 @@
 class World {
     level = level1
     character = new Character();
-    endboss = new Endboss();
+    endboss = this.level.enemies.find(e => e instanceof Endboss);
     statusbar = new Statusbar();
     coinbar = new Coinbar();
     poisonbar = new Poisonbar();
@@ -13,7 +13,7 @@ class World {
     keyboard;
     camera_x = 0;
     background_music = new Audio('audio/backgroundmusic.mp3');
-    throwableObject = [];
+    throwableObject = [] ;
     coolDownSlap = false
     coolDownBubble = false;
     dead = false;
@@ -26,7 +26,6 @@ class World {
     bubbleAttack = false;
 
     spawn = false;
-
 
     j = 0;
 
@@ -94,7 +93,7 @@ class World {
             this.checkCollisionHeart()
             this.checkCharacterPosition()
             this.checkSlap()
-            // this.checkBubble()
+            this.checkBubble()
         }, 1000 / 25);
     }
 
@@ -123,7 +122,7 @@ class World {
     }
 
     checkCollision() {
-        this.level.enemies.forEach((enemy, i) => {
+        this.level.enemies.forEach((enemy) => {
             if (this.dead == true) {
                 return true;
             } else {
@@ -160,19 +159,21 @@ class World {
     }
 
     checkBubble() {
+        
         this.level.enemies.forEach((enemy, i) => {
             if (this.dead == true) {
                 return true;
             } else {
-                if (this.throwableObject[0].isColliding(enemy)) {
+                if (this.throwableObject.length > 0 && this.throwableObject[this.j].isColliding(enemy)) {
                     if ((enemy instanceof Endboss)) {
-                        return true
+                        this.endboss.hit();
+                        console.log(this.endboss.energy)
+                        this.j++
                     } else {
                         this.level.enemies.splice(i, 1)
+                        this.j++
                     }
                 }
-                this.j++
-                console.log(this.j)
             }
         })
     }
@@ -219,9 +220,8 @@ class World {
     }
 
     checkCharacterPosition() {
-        console.log(this.endboss.spawn)
         if (this.character.x > 1750) {
-            this.spawn = true
+            this.spawn = true;
         }
     }
 

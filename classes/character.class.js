@@ -94,10 +94,8 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_IDLE);
         this.loadImages(this.IMAGES_SLAP);
         this.loadImages(this.IMAGES_BUBBLE);
-        this.loadImages(this.IMAGES_DEAD)
-        this.loadImages(this.IMAGES_HURT)
-
-
+        this.loadImages(this.IMAGES_DEAD);
+        this.loadImages(this.IMAGES_HURT);
         this.animate();
     }
 

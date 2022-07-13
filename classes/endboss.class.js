@@ -10,6 +10,7 @@ class Endboss extends MovableObject {
 
     testI = 0;
 
+    world;
 
     IMAGES_SPAWN = [
         'img/2.Enemy/3 Final Enemy/1.Introduce/1.png',
@@ -53,12 +54,11 @@ class Endboss extends MovableObject {
 
     animate() {
         setInterval(() => {
-            console.log(world?.spawn)
-            if (this.testI < 10 && this.spawn == true) {
+            if (this.testI < 10 && this.world.spawn == true) {
                 this.playAnimation(this.IMAGES_SPAWN)
                 this.testI++
                 console.log(this.testI)
-            } if (this.testI >= 10 && this.spawn == true) {
+            } if (this.testI >= 10 && this.world.spawn == true) {
                 this.playAnimation(this.IMAGES_IDLE)
             }
         }, 150);

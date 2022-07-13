@@ -1,7 +1,7 @@
 class World {
     level = level1
-    endboss = new Endboss()
     character = new Character();
+    endboss = new Endboss();
     statusbar = new Statusbar();
     coinbar = new Coinbar();
     poisonbar = new Poisonbar();
@@ -41,8 +41,8 @@ class World {
     }
 
     setWorld() {
-        this.character.World = this;
-        this.endboss.World = this;
+        this.character.world = this;
+        this.endboss.world = this;
     }
     
 
@@ -221,7 +221,7 @@ class World {
     checkCharacterPosition() {
         console.log(this.endboss.spawn)
         if (this.character.x > 1750) {
-            this.endboss.spawn = true
+            this.spawn = true
         }
     }
 

@@ -5,6 +5,7 @@ class World {
     statusbar = new Statusbar();
     coinbar = new Coinbar();
     poisonbar = new Poisonbar();
+    bubble = new ThrowableObject();
     canvas;
     ctx;
     keyboard;
@@ -22,8 +23,8 @@ class World {
     holdSlapAttack = false
 
     bubbleAttack = false;
+    bubbleShot = false;
 
-    firstContact = false;
 
 
 
@@ -96,6 +97,8 @@ class World {
             if (this.character.world.keyboard.C == true && this.coolDownBubble == false && this.bubbleAttack == false && this.character.poison > 0) {
                 this.bubbleAttack = true;
                 this.coolDownBubble = true;
+                console.log(this.throwableObject.x)
+
                 setTimeout(() => {
                     this.bubbleAttack = false;
                 }, 500);
@@ -128,10 +131,15 @@ class World {
                     }, 1000);
                 }
                 if (this.holdSlapAttack == true && this.character.isColliding(enemy)) {
-                    console.log(enemy)
-                    this.level.enemies.splice(i, 1)
-                    if (this instanceof Endboss) {
-                        return true;
+                    if ((enemy instanceof Endboss)) {
+                        return true
+                    }else{
+                        this.level.enemies.splice(i, 1)
+                    }
+                }
+                if (this.bubbleShot == true && this.bubble.isColliding(enemy)) {
+                    if (enemy instanceof Endboss) {
+                        this.level.enemies.splice(i, 1)
                     }
                 }
             }
@@ -179,9 +187,9 @@ class World {
     }
 
     checkCharacterPosition() {
-        if (this.character.x > 1750 && !this.firstContact) {
-            this.firstContact = true;
-            this.endboss.testI = 0;
+        if (this.character.x > 1750 && !this.endboss.firstContact) {
+            this.endboss.testI = 0
+            this.endboss.firstContact = true;
         }
     }
 

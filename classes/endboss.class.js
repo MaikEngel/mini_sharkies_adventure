@@ -2,7 +2,7 @@ class Endboss extends MovableObject {
     height = 500;
     width = 600;
     y = -120
-    i = 0;
+    testI = 0;
     
 
 

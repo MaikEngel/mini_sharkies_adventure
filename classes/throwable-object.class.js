@@ -12,7 +12,6 @@ class ThrowableObject extends MovableObject {
 
 
     trow() {
-        console.log(this.otherDirection)
         this.speedX = 20;
         this.applyPressure();
         setTimeout(() => {

@@ -1,12 +1,30 @@
 class Endboss extends MovableObject {
-height = 500;
-width = 600;
-y = -120
+    height = 500;
+    width = 600;
+    y = -120
+    i = 0;
+    
 
-offsetRight = 30;
-offsetBottom = 50;
-offsetLeft = 50;
-offsetTop = 250;
+
+
+    offsetRight = 30;
+    offsetBottom = 50;
+    offsetLeft = 50;
+    offsetTop = 250;
+
+    IMAGES_SPAWN = [
+        'img/2.Enemy/3 Final Enemy/1.Introduce/1.png',
+        'img/2.Enemy/3 Final Enemy/1.Introduce/2.png',
+        'img/2.Enemy/3 Final Enemy/1.Introduce/3.png',
+        'img/2.Enemy/3 Final Enemy/1.Introduce/4.png',
+        'img/2.Enemy/3 Final Enemy/1.Introduce/5.png',
+        'img/2.Enemy/3 Final Enemy/1.Introduce/6.png',
+        'img/2.Enemy/3 Final Enemy/1.Introduce/7.png',
+        'img/2.Enemy/3 Final Enemy/1.Introduce/8.png',
+        'img/2.Enemy/3 Final Enemy/1.Introduce/9.png',
+        'img/2.Enemy/3 Final Enemy/1.Introduce/10.png',
+
+    ]
 
     IMAGES_IDLE = [
         'img/2.Enemy/3 Final Enemy/2.floating/1.png',
@@ -26,15 +44,24 @@ offsetTop = 250;
 
     constructor() {
         super().loadImage(this.IMAGES_IDLE[0]);
+        this.loadImages(this.IMAGES_SPAWN);
         this.loadImages(this.IMAGES_IDLE);
         this.x = 2000;
-        this.playAnimation(this.IMAGES_IDLE)
         this.animate()
     }
 
     animate() {
+
         setInterval(() => {
-            this.playAnimation(this.IMAGES_IDLE)
-        }, 175);
+
+            if (this.testI < 10) {
+                this.playAnimation(this.IMAGES_SPAWN)
+                this.testI++
+                console.log(this.testI)
+            } if (this.testI >= 10) {
+                this.playAnimation(this.IMAGES_IDLE)
+            }
+
+        }, 150);
     }
 }

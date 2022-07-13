@@ -1,6 +1,6 @@
 class Statusbar extends MovableObject {
     x = 50;
-    y = 20;
+    y = 0;
     height = 175;
     width = 50;
     world;
@@ -15,19 +15,10 @@ class Statusbar extends MovableObject {
         'img/4. Marcadores/green/Life/100_  copia 2.png'
     ]
 
-    IMAGES_COINBAR = [
-        'img/4. Marcadores/orange/0_  copia 2.png',
-        'img/4. Marcadores/orange/20_  copia.png',
-        'img/4. Marcadores/orange/40_  copia 2.png',
-        'img/4. Marcadores/orange/60_  copia 2.png',
-        'img/4. Marcadores/orange/80_  copia 2.png',
-        'img/4. Marcadores/green/Coin/100_ copia 4.png',
-    ]
 
     constructor() {
         super().loadImage(this.IMAGES_LIFEBAR[0]);
         this.loadImages(this.IMAGES_LIFEBAR);
-        this.loadImages(this.IMAGES_COINBAR)
 
         this.animate();
     }
@@ -35,7 +26,6 @@ class Statusbar extends MovableObject {
     animate() {
         setInterval(() => {
             this.lifeBar(this.IMAGES_LIFEBAR);
-            this.coinBar(this.IMAGES_COINBAR);
         }, 1000 / 60);
     }
 }

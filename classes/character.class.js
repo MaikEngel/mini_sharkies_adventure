@@ -101,53 +101,6 @@ class Character extends MovableObject {
         this.animate();
     }
 
-
-
-    playBubbleAnimation(images) {
-        let i = this.currentBubbleImage % images.length;
-        if (i == images.length) {
-            this.firstImage = true;
-            this.currentSlapImage = 0;
-        }
-        if (i > 0 && this.firstImage == true) {
-            this.currentBubbleImage = 0;
-            this.firstImage = false;
-        }
-        let path = images[i];
-        this.img = this.imageCatch[path];
-        this.currentBubbleImage++;
-        setTimeout(() => {
-            this.world.holdbubbleAttack = false
-        }, 1100);
-    }
-
-    playSlapAnimation(images) {
-        let i = this.currentSlapImage % images.length;
-        if (i == images.length) {
-            this.firstImage = true
-            this.currentSlapImage = 0
-
-        }
-        if (i > 0 && this.firstImage == true) {
-            this.currentSlapImage = 0
-            this.firstImage = false;
-        }
-        let path = images[i];
-        this.img = this.imageCatch[path];
-        this.currentSlapImage++;
-        setTimeout(() => {
-            this.world.holdSlapAttack = false
-            this.offsetRight = 110
-            this.offsetLeft = 110;
-
-
-            setTimeout(() => {
-                this.world.coolDownSlap = false
-
-            }, 500);
-        }, 100);
-    }
-
     animate() {
 
         setInterval(() => {
@@ -171,9 +124,9 @@ class Character extends MovableObject {
 
 
                 }
-                if (this.cKeyPressed() && this.world.coolDownBubble == false || this.world.holdbubbleAttack == true || this.world.bubbleAttack == true) {
-                    this.world.holdbubbleAttack = true;
-                    this.playBubbleAnimation(this.IMAGES_BUBBLE);
+                if (this.cKeyPressed() && this.world.coolDownBubble == false && this.poison > 0 || this.world.holdbubbleAttack == true || this.world.bubbleAttack == true) {
+                        this.world.holdbubbleAttack = true;
+                        this.playBubbleAnimation(this.IMAGES_BUBBLE);
                 }
             }
         }, 150);

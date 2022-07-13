@@ -17,11 +17,11 @@ class StandingEnemy extends MovableObject {
     ]
 
 
-    constructor() {
+    constructor(x, y) {
         super().loadImage(this.IMAGES_IDLE[0]);
         this.loadImages(this.IMAGES_IDLE);
-        this.x = 400 + Math.random() * 1200;
-        this.y = Math.random() * 350;
+        this.x = x;
+        this.y = y;
         this.speed = 0.25 + Math.random() * 0.5
         this.animate()
     }

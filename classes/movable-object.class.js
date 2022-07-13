@@ -1,25 +1,24 @@
 class MovableObject extends DrawableObject {
+    
     speed = 1;
     speedY = 0;
     speedX = 0;
     otherDirection = false;
     position = 400;
-    energy = 100;
+    energy = 5;
     coinAmount = 0;
-    poison;
+    poison = 0;
     dead = false;
     acceleration = -1;
     pressure = 9;
     lastCollect = 0;
     lastHit = 0;
-
     offsetRight = 0;
     offsetBottom = 0;
     offsetLeft = 0;
     offsetTop = 0;
 
-    
-
+    testI = 0
 
 
     flipImage(ctx) {
@@ -35,7 +34,7 @@ class MovableObject extends DrawableObject {
     }
 
     hit() {
-        this.energy -= 20;
+        this.energy--;
         if (this.energy <= 0) {
             this.energy = 0;
         } else {
@@ -49,14 +48,38 @@ class MovableObject extends DrawableObject {
         return timepassed < 0.75;
     }
 
-    
+
     collectCoin() {
         this.coinAmount++;
-        console.log(this.coinAmount)
+        if (this.coinAmount >= 5) {
+            this.coinAmount = 5;
+        }
+    }
+
+    collectHeart() {
+        this.energy++;
+        if (this.energy >= 5) {
+            this.energy = 5;
+        }
+    }
+
+    loseCoin() {
+        if (this.coinAmount > 0) {
+            this.coinAmount--;
+        }
     }
 
     collectPoison() {
         this.poison++
+        if (this.poison >= 5) {
+            poison = 5;
+        }
+    }
+
+    losePoison() {
+        if (this.poison > 0) {
+            this.poison--
+        }
     }
 
     isDead() {
@@ -69,7 +92,6 @@ class MovableObject extends DrawableObject {
 
     moveRight() {
         this.x += this.speed;
-
     }
 
     moveUp() {
@@ -101,12 +123,57 @@ class MovableObject extends DrawableObject {
         }
     }
 
+    playBubbleAnimation(images) {
+        let i = this.currentBubbleImage % images.length;
+        if (i == images.length) {
+            this.firstImage = true;
+            this.currentSlapImage = 0;
+        }
+        if (i > 0 && this.firstImage == true) {
+            this.currentBubbleImage = 0;
+            this.firstImage = false;
+        }
+        let path = images[i];
+        this.img = this.imageCatch[path];
+        this.currentBubbleImage++;
+        setTimeout(() => {
+            this.world.holdbubbleAttack = false
+        }, 1100);
+    }
+
+    playSlapAnimation(images) {
+        let i = this.currentSlapImage % images.length;
+        if (i == images.length) {
+            this.firstImage = true
+            this.currentSlapImage = 0
+
+        }
+        if (i > 0 && this.firstImage == true) {
+            this.currentSlapImage = 0
+            this.firstImage = false;
+        }
+        let path = images[i];
+        this.img = this.imageCatch[path];
+        this.currentSlapImage++;
+        setTimeout(() => {
+            this.world.holdSlapAttack = false
+            this.offsetRight = 110
+            this.offsetLeft = 110;
+
+
+            setTimeout(() => {
+                this.world.coolDownSlap = false
+
+            }, 500);
+        }, 100);
+    }
+
     playBarAnimation(images) {
         this.img = this.imageCatch[images];
     }
 
     isColliding(mo) {
-        return this.x + this.width - this.offsetRight > mo.x + mo.offsetLeft && this.y + this.height - this.offsetBottom > mo.y + mo.offsetTop && this.x + this.offsetLeft < mo.x + mo.width -mo.offsetRight && this.y + this.offsetTop < mo.y + mo.height -mo.offsetBottom
+        return this.x + this.width - this.offsetRight > mo.x + mo.offsetLeft && this.y + this.height - this.offsetBottom > mo.y + mo.offsetTop && this.x + this.offsetLeft < mo.x + mo.width - mo.offsetRight && this.y + this.offsetTop < mo.y + mo.height - mo.offsetBottom
     }
 
 
@@ -163,23 +230,23 @@ class MovableObject extends DrawableObject {
     }
 
     lifeBar(life) {
-        if (this.energy == 100) {
+        if (this.energy == 5) {
             this.playBarAnimation(life[5]);
         }
 
-        if (this.energy == 80) {
+        if (this.energy == 4) {
             this.playBarAnimation(life[4]);
         }
 
-        if (this.energy == 60) {
+        if (this.energy == 3) {
             this.playBarAnimation(life[3]);
         }
 
-        if (this.energy == 40) {
+        if (this.energy == 2) {
             this.playBarAnimation(life[2]);
         }
 
-        if (this.energy == 20) {
+        if (this.energy == 1) {
             this.playBarAnimation(life[1]);
         }
 
@@ -191,32 +258,52 @@ class MovableObject extends DrawableObject {
     coinBar(coin) {
         if (this.coinAmount >= 5) {
             this.playBarAnimation(coin[5]);
-            console.log('5', this.coinAmount)
         }
 
         if (this.coinAmount == 4) {
             this.playBarAnimation(coin[4]);
-            console.log('4',this.coinAmount)
         }
 
         if (this.coinAmount == 3) {
             this.playBarAnimation(coin[3]);
-            console.log('3',this.coinAmount)
         }
 
         if (this.coinAmount == 2) {
             this.playBarAnimation(coin[2]);
-            console.log('2',this.coinAmount)
         }
 
         if (this.coinAmount == 1) {
             this.playBarAnimation(coin[1]);
-            console.log('1',this.coinAmount)
         }
 
         if (this.coinAmount == 0) {
             this.playBarAnimation(coin[0]);
-            console.log('0',this.coinAmount)
+        }
+    }
+
+    poisonBar(poisonImg) {
+        if (this.poison >= 5) {
+            this.playBarAnimation(poisonImg[5]);
+        }
+
+        if (this.poison == 4) {
+            this.playBarAnimation(poisonImg[4]);
+        }
+
+        if (this.poison == 3) {
+            this.playBarAnimation(poisonImg[3]);
+        }
+
+        if (this.poison == 2) {
+            this.playBarAnimation(poisonImg[2]);
+        }
+
+        if (this.poison == 1) {
+            this.playBarAnimation(poisonImg[1]);
+        }
+
+        if (this.poison == 0) {
+            this.playBarAnimation(poisonImg[0]);
         }
     }
 }

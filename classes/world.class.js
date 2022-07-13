@@ -1,7 +1,10 @@
 class World {
     level = level1
+    endboss = new Endboss()
     character = new Character();
     statusbar = new Statusbar();
+    coinbar = new Coinbar();
+    poisonbar = new Poisonbar();
     canvas;
     ctx;
     keyboard;
@@ -19,6 +22,8 @@ class World {
     holdSlapAttack = false
 
     bubbleAttack = false;
+
+    firstContact = false;
 
 
 
@@ -43,16 +48,24 @@ class World {
 
         this.addObjectsToMap(this.level.backgroundObjects) // draws the background
         this.addObjectsToMap(this.level.coins) // draws coins
+        this.addObjectsToMap(this.level.coins) // draws coins
+
         this.addObjectsToMap(this.level.poisons) // draws poison
         this.addObjectsToMap(this.throwableObject) // draws poison
 
         this.addToMap(this.character); // draws the character
+        this.addObjectsToMap(this.level.heart); // draws the character
+
         this.addObjectsToMap(this.level.enemies) // draws the enemies
 
         this.addToMap(this.level.light); // draws the light
 
         this.ctx.translate(-this.camera_x, 0);
         this.addToMap(this.statusbar); // draws lifebar
+        this.addToMap(this.coinbar); // draws coinbar
+        this.addToMap(this.poisonbar); // draws poisonbar
+
+
         this.ctx.translate(this.camera_x, 0);
 
 
@@ -70,7 +83,9 @@ class World {
             this.checkCollision();
             this.checkThowobjects();
             this.checkCollisionCoin();
-            this.checkCollisionPoison()
+            this.checkCollisionPoison();
+            this.checkCollisionHeart()
+            this.checkCharacterPosition()
         }, 1000 / 25);
     }
 
@@ -78,7 +93,7 @@ class World {
         if (this.dead == true) {
             return false;
         } else {
-            if (this.character.world.keyboard.C == true && this.coolDownBubble == false && this.bubbleAttack == false) {
+            if (this.character.world.keyboard.C == true && this.coolDownBubble == false && this.bubbleAttack == false && this.character.poison > 0) {
                 this.bubbleAttack = true;
                 this.coolDownBubble = true;
                 setTimeout(() => {
@@ -87,6 +102,8 @@ class World {
                 setTimeout(() => {
                     let bubble = new ThrowableObject(this.character.x + 150, this.character.y + 130)
                     this.throwableObject.push(bubble);
+                    this.poisonbar.losePoison();
+                    this.character.losePoison();
                     setTimeout(() => {
                         this.coolDownBubble = false;
                     }, 1100);
@@ -105,15 +122,20 @@ class World {
                     this.invulnerable = true;
                     this.character.hit();
                     this.statusbar.hit();
+                    this.coinbar.loseCoin();
                     setTimeout(() => {
                         this.invulnerable = false;
                     }, 1000);
                 }
                 if (this.holdSlapAttack == true && this.character.isColliding(enemy)) {
-                        this.level.enemies.splice(i, 1)
+                    console.log(enemy)
+                    this.level.enemies.splice(i, 1)
+                    if (this instanceof Endboss) {
+                        return true;
+                    }
                 }
             }
-        });
+        })
     }
 
     checkCollisionCoin() {
@@ -122,12 +144,21 @@ class World {
                 return true;
             } else {
                 if (this.character.isColliding(coin)) {
-                    this.character.collectCoin();
+                    this.coinbar.collectCoin();
                     this.level.coins.splice(index, 1);
-
                 }
-                if (this.COINS >= 10) {
-                    console.log('Power Up')
+            }
+        });
+    }
+
+    checkCollisionHeart() {
+        this.level.heart.forEach((heart, index) => {
+            if (this.dead == true) {
+                return true;
+            } else {
+                if (this.character.isColliding(heart)) {
+                    this.statusbar.collectHeart();
+                    this.level.heart.splice(index, 1);
                 }
             }
         });
@@ -139,12 +170,19 @@ class World {
                 return true;
             } else {
                 if (this.character.isColliding(poison)) {
-                    this.character.collectPoison()
-                    this.level.poisons.splice(index, 1)
-                    console.log(this.POISON);
+                    this.poisonbar.collectPoison();
+                    this.character.collectPoison();
+                    this.level.poisons.splice(index, 1);
                 }
             }
         });
+    }
+
+    checkCharacterPosition() {
+        if (this.character.x > 1750 && !this.firstContact) {
+            this.firstContact = true;
+            this.endboss.testI = 0;
+        }
     }
 
     addObjectsToMap(objects) { // to simplify forEach function
@@ -165,4 +203,6 @@ class World {
             mo.flipImageBack(this.ctx);
         }
     }
+
+
 }

@@ -1,11 +1,11 @@
 const level1 = new Level(
     [
-        new StandingEnemy(),
-        new StandingEnemy(),
-        new Enemy(),
-        new Enemy(),
-        new Enemy(),
-        new Enemy(),
+        new StandingEnemy(1020, 360),
+        new StandingEnemy(500, 200),
+        new Enemy(600, 100),
+        new Enemy(1200, 200),
+        new Enemy(1200, 0),
+        new Enemy(1700, 300),
         new Endboss(),
 
     ],
@@ -41,15 +41,20 @@ const level1 = new Level(
         new Coinbow(670, 300),
         new Coinbow(730, 340),
         new Coinbow(770, 400),
-        new Coin(),
-        new Coin(),
-        new Coin(),
-        new Coin(),
+        new Coin(400, 400),
+        new Coin(800, 100),
+        new Coin(900, 100),
+        new Coin(1300, 250),
     ],
     [
-        new Poison(),
-        new Poison(),
-        new Poison(),
-        new Poison(),
+        new Poison(400, 200),
+        new Poison(670, 0),
+        new Poison(1000, 100),
+        new Poison(1300, 0),
+        new Poison(100, 0),
     ],
+    [
+        new Heart(800, 200),
+        new Heart(1500, 0),
+    ]
 );

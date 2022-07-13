@@ -1,8 +1,7 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
-let timeoutC = 1150;
-let timeoutSpace = 1150;
+
 
 function init() {
     canvas = document.getElementById('canvas');

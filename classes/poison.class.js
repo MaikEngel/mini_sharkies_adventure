@@ -18,13 +18,13 @@ class Poison extends MovableObject {
     ]
 
 
-    constructor() {
+    constructor(x, y) {
         super().loadImage(this.IMAGES_SWIMMING[0]);
         this.loadImages(this.IMAGES_SWIMMING);
         this.loadImages(this.IMAGES_IDLE);
-        this.x = 400 + Math.random() * 1200;
-        this.y = Math.random() * 350;
-        this.speed = 0.25 + Math.random() * 0.5
+        this.x = x;
+        this.y = y;
+        this.speed = 0.25 + Math.random() * 0.1
         this.animate()
     }
 

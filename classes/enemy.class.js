@@ -27,33 +27,38 @@ class Enemy extends MovableObject {
         this.y = y;
         this.speed = 0.25 + Math.random() * 0.5
         this.animate();
-        this.changeDirection();
 
     }
 
     animate() {
         setInterval(() => {
-            this.playAnimation(this.IMAGES_SWIMMING)
+            if (!pause) {
+                this.playAnimation(this.IMAGES_SWIMMING)
+                
+            }
         }, 100);
         setInterval(() => {
-            if (this.turnAround == true) {
-                this.moveRight();
-                this.otherDirection = true;
-            } else {
-                this.moveLeft();
-                this.otherDirection = false;
-
+            if (!pause) {
+                if (this.turnAround == true) {
+                    this.moveRight();
+                    this.otherDirection = true;
+                } else {
+                    this.moveLeft();
+                    this.otherDirection = false;
+    
+                }
+                
             }
         }, 1000 / 60);
 
-    }
-
-    changeDirection() {
         setInterval (() => {
-            if (this.turnAround == true) {
-                this.turnAround = false;
-            } else {
-                this.turnAround = true;
+            if (!pause) {
+                if (this.turnAround == true) {
+                    this.turnAround = false;
+                } else {
+                    this.turnAround = true;
+                }
+                
             }
         }, this.time);
     }

@@ -16,7 +16,7 @@ class MovableObject extends DrawableObject {
     offsetBottom = 0;
     offsetLeft = 0;
     offsetTop = 0;
-
+    paused = true;
 
 
     flipImage(ctx) {
@@ -176,10 +176,12 @@ class MovableObject extends DrawableObject {
 
 
     applyAir() {
-        setInterval(() => {
-            this.y -= this.speedY;
-            this.speedY -= this.acceleration;
-        }, 1000 / 25);
+        if (!pause) {
+            setInterval(() => {
+                this.y -= this.speedY;
+                this.speedY -= this.acceleration;
+            }, 1000 / 25);
+        }
     }
 
     applyPressure() {

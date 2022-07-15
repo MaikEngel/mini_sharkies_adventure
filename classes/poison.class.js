@@ -31,11 +31,13 @@ class Poison extends MovableObject {
     animate() {
 
         setInterval(() => {
-            if (this.y < 330) {
-                this.playAnimation(this.IMAGES_SWIMMING);
-            }
-            if (this.y >= 330) {
-                this.playAnimation(this.IMAGES_IDLE);
+            if (!pause) {
+                if (this.y < 330) {
+                    this.playAnimation(this.IMAGES_SWIMMING);
+                }
+                if (this.y >= 330) {
+                    this.playAnimation(this.IMAGES_IDLE);
+                }
             }
         }, 100);
         this.moveDown()
@@ -44,8 +46,10 @@ class Poison extends MovableObject {
 
     moveDown() {
         setInterval(() => {
-            if (this.y < 330) {
-                this.y += this.speed;
+            if (!pause) {
+                if (this.y < 330) {
+                    this.y += this.speed;
+                }
             }
         }, 1000 / 60);
     }

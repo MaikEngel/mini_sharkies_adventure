@@ -1,11 +1,13 @@
 const level1 = new Level(
+    0,
+    1900,
     [
         new StandingEnemy(1020, 360),
         new StandingEnemy(500, 200),
         new Enemy(600, 100),
         new Enemy(1200, 200),
         new Enemy(1200, 0),
-        new Enemy(1700, 300),
+        new Enemy(1500, 300),
         new Endboss(),
 
     ],

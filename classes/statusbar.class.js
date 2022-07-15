@@ -7,11 +7,11 @@ class Statusbar extends MovableObject {
 
 
     IMAGES_LIFEBAR = [
-        'img/4. Marcadores/Purple/0_ .png',
-        'img/4. Marcadores/Purple/20__1.png',
-        'img/4. Marcadores/Purple/40_ .png',
-        'img/4. Marcadores/Purple/60_ .png',
-        'img/4. Marcadores/Purple/80_ .png',
+        'img/4. Marcadores/orange/0_  copia.png',
+        'img/4. Marcadores/orange/20_ copia 2.png',
+        'img/4. Marcadores/orange/40_  copia.png',
+        'img/4. Marcadores/orange/60_  copia.png',
+        'img/4. Marcadores/orange/80_  copia.png',
         'img/4. Marcadores/green/Life/100_  copia 2.png'
     ]
 

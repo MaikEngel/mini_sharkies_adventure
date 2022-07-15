@@ -24,6 +24,7 @@
     <script src="classes/endboss.class.js"></script>
     <script src="classes/character.class.js"></script>
     <script src="classes/statusbar.class.js"></script>
+    <script src="classes/statusbar-endboss.class.js"></script>
     <script src="classes/coinbar.class.js"></script>
     <script src="classes/poisonbar.class.js"></script>
     <script src="classes/level.class.js"></script>
@@ -33,10 +34,79 @@
     <script src="js/game.js"></script>
 </head>
 
-<body onload="init()">
+<body onkeydown="pauseGame()">
     <h1>MINI SHARKIES ADVENTURE</h1>
 
+    <div id="startscreen">
+        <div>
+            <h1>MINI SHARKIES ADVENTURE</h1>
+            <img src="./img/1.Sharkie/1.IDLE/18.png" alt="">
+            <div id="startbutton" onclick="startGame()"></div>
+        </div>
+        <h2 id="helpButton" onclick="openHelp()">HELP</h2>
+    </div>
+
+    <div id="helpscreen" class="dNone">
+        <div>
+            <h2>MINI SHARKIES ADVENTURE - HELP</h2>
+            <div class="helpscreenClose" onclick="closeHelp()">X</div>
+            <div class="helpTextfield">
+                <p>Help Mini Sharkie to find his way through the world of Mini Sharkies Adventure! <br>
+                    Collect coins to get stronger, collect hearts to gain life and collect poison for throwing them at
+                    enemies - but be careful: the endboss can only be beaten with poison, so don´t waste them! <br>
+                    Avoid collisions with enemies. Slap them for beating them.
+                </p>
+                <h3>How to move Mini Sharkie</h3>
+                <table>
+                    <tr>
+                        <td>P</td>
+                        <td>-</td>
+                        <td>Pause game</td>
+                    </tr>
+                    <tr>
+                        <td>A or ←</td>
+                        <td>-</td>
+                        <td>Move left</td>
+                    </tr>
+                    <tr>
+                        <td>D or →</td>
+                        <td>-</td>
+                        <td>Move right</td>
+                    </tr>
+                    <tr>
+                        <td>W or ↑</td>
+                        <td>-</td>
+                        <td>Move up</td>
+                    </tr>
+                    <tr>
+                        <td>S or ↓</td>
+                        <td>-</td>
+                        <td>Move down</td>
+                    </tr>
+                    <tr>
+                        <td>SPACE</td>
+                        <td>-</td>
+                        <td>Slap</td>
+                    </tr>
+                    <tr>
+                        <td>C</td>
+                        <td>-</td>
+                        <td>Shoot bubble</td>
+                    </tr>
+                    <tr>
+                        <td>LEFT SHIFT</td>
+                        <td>-</td>
+                        <td>Swim fast</td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
     <canvas id="canvas" width="720" height="480"></canvas>
+
+
 </body>
 
 </html>

@@ -13,7 +13,7 @@ class StandingEnemy extends MovableObject {
         'img/2.Enemy/1.Puffer fish (3 color options)/2.transition/2.transition3.png',
         'img/2.Enemy/1.Puffer fish (3 color options)/2.transition/2.transition4.png',
         'img/2.Enemy/1.Puffer fish (3 color options)/2.transition/2.transition5.png',
-        
+
     ]
 
 
@@ -28,7 +28,9 @@ class StandingEnemy extends MovableObject {
 
     animate() {
         setInterval(() => {
-            this.playAnimation(this.IMAGES_IDLE)
+            if (!pause) {
+                this.playAnimation(this.IMAGES_IDLE)
+            }
         }, 300);
     }
 }

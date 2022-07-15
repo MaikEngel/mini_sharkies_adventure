@@ -1,5 +1,5 @@
 class Character extends MovableObject {
-
+    world;
     height = 200;
     width = 250;
     x = 20;
@@ -11,11 +11,12 @@ class Character extends MovableObject {
     currentBubbleImage = 0;
     currentSlapImage = 0;
     firstImage = true;
-
+    morePower = false
     offsetRight = 110;
     offsetBottom = 20;
     offsetLeft = 110;
     offsetTop = 100;
+
 
     IMAGES_IDLE = [
         'img/1.Sharkie/1.IDLE/1.png',
@@ -85,8 +86,6 @@ class Character extends MovableObject {
     ]
 
 
-    world;
-    swim_sound = new Audio('audio/swim.mp3');
 
     constructor() {
         super().loadImage(this.IMAGES_IDLE[0]);
@@ -102,71 +101,96 @@ class Character extends MovableObject {
     animate() {
 
         setInterval(() => {
-            if (this.isDead()) {
-                this.playDeadAnimation(this.IMAGES_DEAD);
-                this.world.dead = true;
-            } else {
-                if (this.anyKeyPressed()) {
-                    this.playAnimation(this.IMAGES_SWIMMING);
-                }
-                if (this.noKeyPressed()) {
-                    this.playAnimation(this.IMAGES_IDLE);
-                }
+            if (!pause) {
+                if (this.isDead()) {
+                    this.playDeadAnimation(this.IMAGES_DEAD);
+                    this.world.dead = true;
+                } else {
+                    if (this.anyKeyPressed()) {
+                        this.playAnimation(this.IMAGES_SWIMMING);
+                    }
+                    if (this.noKeyPressed()) {
+                        this.playAnimation(this.IMAGES_IDLE);
+                    }
 
-                if (this.spaceKeyPressed() && this.world.coolDownSlap == false || this.world.holdSlapAttack == true) {
-                    this.playSlapAnimation(this.IMAGES_SLAP);
-                    this.world.coolDownSlap = true;
-                    this.world.holdSlapAttack = true;
-                    this.offsetRight = 50;
-                    this.offsetLeft = 50;
+                    if (this.spaceKeyPressed() && this.world.coolDownSlap == false || this.world.holdSlapAttack == true) {
+                        this.playSlapAnimation(this.IMAGES_SLAP);
+                        this.world.slap.pause()
+                        this.world.slap.currentTime = 0;
+                        this.world.slap.play();
+                        this.world.coolDownSlap = true;
+                        this.world.holdSlapAttack = true;
+                        this.offsetRight = 50;
+                        this.offsetLeft = 50;
 
 
-                }
-                if (this.cKeyPressed() && this.world.coolDownBubble == false && this.poison > 0 || this.world.holdbubbleAttack == true || this.world.bubbleAttack == true) {
+                    }
+                    if (this.cKeyPressed() && this.world.coolDownBubble == false && this.poison > 0 || this.world.holdbubbleAttack == true || this.world.bubbleAttack == true) {
                         this.world.holdbubbleAttack = true;
                         this.playBubbleAnimation(this.IMAGES_BUBBLE);
+                    }
                 }
             }
+
         }, 150);
 
 
         setInterval(() => {
-            if (this.dead == false) {
-                if (this.isHurt()) {
-                    this.playAnimation(this.IMAGES_HURT)
-                }
-                if (this.rightKeyPressed() && this.x < this.world.level.level_end_x && this.world.holdSlapAttack == false) {
-                    this.moveRight()
-                    this.otherDirection = false;
-                    this.swim_sound.play();
-                }
+            if (!pause) {
+                if (this.dead == false) {
+                    if (this.isHurt()) {
+                        this.playAnimation(this.IMAGES_HURT)
+                    }
 
-                if (this.leftKeyPressed() && this.x > 0 && this.world.holdSlapAttack == false) {
-                    this.moveLeft()
-                    this.otherDirection = true;
-                    this.swim_sound.play();
-                }
+                    if (this.rightKeyPressed() && this.x < this.world.level.level_end_x && this.world.holdSlapAttack == false) {
+                        this.moveRight()
+                        this.otherDirection = false;
+                        this.world.swim_sound.play();
+                    }
 
-                if (this.upKeyPressed() && this.y > -110 && this.world.holdSlapAttack == false) {
-                    this.moveUp()
-                    this.swim_sound.play();
-                }
+                    if (this.leftKeyPressed() && this.x > this.world.level.level_start_x && this.world.holdSlapAttack == false) {
+                        this.moveLeft()
+                        this.otherDirection = true;
+                        this.world.swim_sound.play();
+                    }
 
-                if (this.downKeyPressed() && this.y < 250 && this.world.holdSlapAttack == false) {
-                    this.moveDown()
-                    this.swim_sound.play();
-                }
+                    if (this.upKeyPressed() && this.y > -110 && this.world.holdSlapAttack == false) {
+                        this.moveUp()
+                        this.world.swim_sound.play();
+                    }
 
-                if (this.shiftLeftKeyPressed()) {// Speed up the Character
-                    this.speed = 8;
-                }
+                    if (this.downKeyPressed() && this.y < 250 && this.world.holdSlapAttack == false) {
+                        this.moveDown()
+                        this.world.swim_sound.play();
+                    }
 
-                if (!this.shiftLeftKeyPressed()) {// Normal speed 
-                    this.speed = 4;
-                }
+                    if (this.shiftLeftKeyPressed()) {// Speed up the Character
+                        this.speed = 8;
+                    }
 
-                this.world.camera_x = -this.x;
+                    if (!this.shiftLeftKeyPressed()) {// Normal speed 
+                        this.speed = 4;
+                    }
+
+                    if (this.coinAmount == 5) {
+                        if (this.morePower == false) {
+                            this.world.powerup_sound.play()
+                        }
+                        this.height = 250;
+                        this.width = 300;
+                        this.morePower = true;
+                    }
+
+                    if (this.coinAmount < 5) {
+                        this.height = 200;
+                        this.width = 250;
+                        this.morePower = false;
+                    }
+
+                    this.world.camera_x = -this.x;
+                }
             }
+
         }, 1000 / 60);
 
     }

@@ -17,6 +17,8 @@ class MovableObject extends DrawableObject {
     offsetLeft = 0;
     offsetTop = 0;
     paused = true;
+    gameOver = false;
+
 
 
     flipImage(ctx) {

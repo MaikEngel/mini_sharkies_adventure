@@ -1,14 +1,16 @@
 class World {
-    bossFight = new Audio('audio/boss_fight.mp3');
-    theme = new Audio('audio/backgroundmusic.mp3');
-    swim_sound = new Audio('audio/swim.mp3');
-    slap = new Audio('audio/slap.mp3');
-    bubble_sound = new Audio('audio/bubble.mp3');
-    collect_coin_sound = new Audio('audio/collect_coin_sound.mp3');
-    collect_poison_sound = new Audio('audio/collect_poison_sound.mp3');
-    damage_sound = new Audio('audio/damage.mp3');
-    heal_sound = new Audio('audio/heal_sound.mp3');
-    powerup_sound = new Audio('audio/powerup_sound.mp3')
+    bossFight = new Audio(AUDIOS.BACKGROUND.BOSS_THEME.AUDIO);
+    theme = new Audio(AUDIOS.BACKGROUND.THEME.AUDIO);
+    swim_sound = new Audio(AUDIOS.CHARACTER.SWIMMING.AUDIO);
+    slap = new Audio(AUDIOS.CHARACTER.SLAP.AUDIO);
+    bubble_sound = new Audio(AUDIOS.CHARACTER.BUBBLE.AUDIO);
+    collect_coin_sound = new Audio(AUDIOS.WORLD.COINS.AUDIO);
+    collect_poison_sound = new Audio(AUDIOS.WORLD.POISON.AUDIO);
+    damage_sound = new Audio(AUDIOS.CHARACTER.HURT.AUDIO);
+    heal_sound = new Audio(AUDIOS.WORLD.HEART.AUDIO);
+    powerup_sound = new Audio(AUDIOS.WORLD.POWERUP.AUDIO);
+    win_sound = new Audio(AUDIOS.WORLD.WIN.AUDIO);
+    lose_sound = new Audio(AUDIOS.WORLD.LOSE.AUDIO);
 
     level = level1
     character = new Character();
@@ -42,8 +44,6 @@ class World {
         this.canvas = canvas;
         this.keyboard = keyboard;
         this.setWorld();
-        this.theme.volume = 0.2;
-        this.theme.play()
         this.draw();
         this.run();
     }
@@ -53,9 +53,6 @@ class World {
         this.endboss.world = this;
         this.statusbarEndboss.world = this;
     }
-
-
-
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);  // clears the canvas, otherwise charakter and enemies would double after every move.
@@ -93,12 +90,14 @@ class World {
                 this.checkCharacterPosition();
                 this.checkSlap();
                 this.checkBubble();
+                this.theme.volume = AUDIOS.BACKGROUND.THEME.VOLUME;
                 if (!this.spawn) {
                     this.theme.play();
                 }
                 this.checkCollision();
             }
             if (pause) {
+                this.bossFight.pause();
                 this.theme.pause();
             }
         }, 1000 / 60);
@@ -114,7 +113,6 @@ class World {
 
                 setTimeout(() => {
                     this.bubble_sound.play()
-
                     this.bubbleAttack = false;
                 }, 500);
                 setTimeout(() => {
@@ -160,7 +158,7 @@ class World {
             } else {
                 if (this.holdSlapAttack == true && this.character.isColliding(enemy)) {
                     if ((enemy instanceof Endboss)) {
-                        return true
+                        return true;
                     } else {
                         this.level.enemies.splice(i, 1)
                     }
@@ -250,10 +248,10 @@ class World {
     }
 
     checkCharacterPosition() {
-        if (this.character.x > 1701) {
+        if (this.character.x > 1701 && !pause) {
             this.theme.pause();
             this.bossFight.play();
-            this.bossFight.volume = 0.5;
+            this.bossFight.volume = AUDIOS.BACKGROUND.BOSS_THEME.VOLUME;
             this.spawn = true;
             this.endboss.bossSpawned = true;
             this.level.level_start_x = 1700;

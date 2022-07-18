@@ -7,5 +7,4 @@ class Keyboard {
     C = false;
     ShiftLeft = false;
     P = false;
-
 }

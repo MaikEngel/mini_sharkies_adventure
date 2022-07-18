@@ -1,7 +1,9 @@
 let canvas;
+let winScreen;
 let world;
 let keyboard = new Keyboard();
-let pause = false;
+let pause = true;
+let gameStartet = false
 
 function init() {
     canvas = document.getElementById('canvas');
@@ -9,30 +11,50 @@ function init() {
     endboss = new Endboss();
 }
 
+function reload() {
+    location.reload()
+}
+
 function startGame() {
     document.getElementById('startscreen').classList.add('dNone')
-    init()
+    gameStartet = true
+    pauseGame()
 }
+
+window.addEventListener('keydown', function (e) {
+    var key = e.keyCode;
+    if (key === 80)// p key
+    {
+        pauseGame();
+    }
+});
 
 
 function pauseGame() {
-    if (event.code == "KeyP") {
+    if (gameStartet || world.endboss.energy <= 0 || world.character.energy <= 0) {
         if (!pause) {
             pause = true;
+            if (world.endboss.energy > 0 && world.character.energy > 0) {
+                document.getElementById('helpscreen').classList.remove('dNone');
+            }
         }
         else if (pause) {
             pause = false;
+            if (world.endboss.energy > 0 && world.character.energy > 0) {
+                document.getElementById('helpscreen').classList.add('dNone');
+            }
         }
-        console.log(pause);
     }
 }
 
+
 function openHelp() {
-    document.getElementById('helpscreen').classList.remove('dNone')
+    document.getElementById('helpscreen').classList.remove('dNone');
 }
 
 function closeHelp() {
-    document.getElementById('helpscreen').classList.add('dNone')
+    document.getElementById('helpscreen').classList.add('dNone');
+    pauseGame(event);
 }
 
 window.addEventListener('keydown', (event) => {
@@ -59,7 +81,7 @@ window.addEventListener('keydown', (event) => {
     }
     if (event.code == "KeyP") {
         keyboard.P = true;
-}
+    }
 })
 
 window.addEventListener('keyup', (event) => {
@@ -87,5 +109,5 @@ window.addEventListener('keyup', (event) => {
     }
     if (event.code == "KeyP") {
         keyboard.P = false;
-}
+    }
 });

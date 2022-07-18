@@ -1,48 +1,33 @@
 class Poison extends MovableObject {
     height = 198 - 120;
     width = 241 - 120;
-
-    IMAGES_SWIMMING = [
-        'img/4. Marcadores/Posión/Animada/1.png',
-        'img/4. Marcadores/Posión/Animada/2.png',
-        'img/4. Marcadores/Posión/Animada/3.png',
-        'img/4. Marcadores/Posión/Animada/4.png',
-        'img/4. Marcadores/Posión/Animada/5.png',
-        'img/4. Marcadores/Posión/Animada/6.png',
-        'img/4. Marcadores/Posión/Animada/7.png',
-        'img/4. Marcadores/Posión/Animada/8.png',
-    ]
-
-    IMAGES_IDLE = [
-        'img/4. Marcadores/Posión/Light - Right.png'
-    ]
+    speed = 0.25 + Math.random() * 0.1
 
 
     constructor(x, y) {
-        super().loadImage(this.IMAGES_SWIMMING[0]);
-        this.loadImages(this.IMAGES_SWIMMING);
-        this.loadImages(this.IMAGES_IDLE);
+        super().loadImage(IMAGES.WORLD.COLLECTABLE.POISON.SWIMMING[0]);
+        this.loadImages(IMAGES.WORLD.COLLECTABLE.POISON.SWIMMING);
+        this.loadImages(IMAGES.WORLD.COLLECTABLE.POISON.IDLE);
         this.x = x;
         this.y = y;
-        this.speed = 0.25 + Math.random() * 0.1
         this.animate()
     }
 
-    animate() {
 
+    animate() {
         setInterval(() => {
             if (!pause) {
-                if (this.y < 330) {
-                    this.playAnimation(this.IMAGES_SWIMMING);
+                if (this.aboveGround()) {
+                    this.poisonSink
                 }
-                if (this.y >= 330) {
-                    this.playAnimation(this.IMAGES_IDLE);
+                if (this.onGround()) {
+                    this.poisonLaying()
                 }
             }
         }, 100);
         this.moveDown()
-
     }
+
 
     moveDown() {
         setInterval(() => {
@@ -52,6 +37,27 @@ class Poison extends MovableObject {
                 }
             }
         }, 1000 / 60);
+    }
+
+    
+    aboveGround() {
+        return this.y < 330;
+    }
+
+    
+    onGround() {
+        return this.y >= 330;
+    }
+
+    
+    poisonSink() {
+        this.playAnimation(IMAGES.WORLD.COLLECTABLE.POISON.SWIMMING);
+    }
+
+    
+    poisonLaying() {
+        this.playAnimation(IMAGES.WORLD.COLLECTABLE.POISON.IDLE);
+
     }
 }
 

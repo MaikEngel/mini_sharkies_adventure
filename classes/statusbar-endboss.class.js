@@ -6,27 +6,18 @@ class StatusbarEndboss extends MovableObject {
     world;
 
 
-    IMAGES_LIFEBAR = [
-        'img/4. Marcadores/Purple/0_ .png',
-        'img/4. Marcadores/Purple/20__1.png',
-        'img/4. Marcadores/Purple/40_ .png',
-        'img/4. Marcadores/Purple/60_ .png',
-        'img/4. Marcadores/Purple/80_ .png',
-        'img/4. Marcadores/green/Life/100_  copia 2.png'
-    ]
 
 
     constructor() {
-        super().loadImage(this.IMAGES_LIFEBAR[0]);
-        this.loadImages(this.IMAGES_LIFEBAR);
-
+        super().loadImage(IMAGES.WORLD.BARS.ENDBOSSBAR[0]);
+        this.loadImages(IMAGES.WORLD.BARS.ENDBOSSBAR);
         this.animate();
     }
 
     animate() {
         setInterval(() => {
-            this.lifeBar(this.IMAGES_LIFEBAR);
-            if (this.world.spawn == true) {
+            this.lifeBar(IMAGES.WORLD.BARS.ENDBOSSBAR);
+            if (this.world.spawn) {
                 this.height = 175;
                 this.width = 50;
             }

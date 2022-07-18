@@ -7,11 +7,13 @@ class DrawableObject {
     height = 100;
     width = 150;
 
+
     loadImage(path) {
         this.img = new Image();
         this.img.src = path;
     }
 
+    
     draw(ctx) {
         ctx.drawImage(this.img, this.x, this.y, this.height, this.width);
     }

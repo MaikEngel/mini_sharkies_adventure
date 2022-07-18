@@ -5,25 +5,16 @@ class Poisonbar extends MovableObject {
     width = 50;
     world;
 
-    IMAGES_POISONBAR = [
-        'img/4. Marcadores/orange/0_ copia.png',
-        'img/4. Marcadores/orange/20_ copia.png',
-        'img/4. Marcadores/orange/40_ copia.png',
-        'img/4. Marcadores/orange/60_ copia.png',
-        'img/4. Marcadores/orange/80_ copia.png',
-        'img/4. Marcadores/green/poisoned bubbles/100_ copia 3.png',
-    ]
-
     constructor() {
-        super().loadImage(this.IMAGES_POISONBAR[0]);
-        this.loadImages(this.IMAGES_POISONBAR)
+        super().loadImage(IMAGES.WORLD.BARS.POISONBAR[0]);
+        this.loadImages(IMAGES.WORLD.BARS.POISONBAR)
 
         this.animate();
     }
 
     animate() {
         setInterval(() => {
-            this.poisonBar(this.IMAGES_POISONBAR);
+            this.poisonBar(IMAGES.WORLD.BARS.POISONBAR);
         }, 1000 / 60);
     }
 }

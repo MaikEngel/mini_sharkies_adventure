@@ -1,15 +1,17 @@
 class Light extends MovableObject {
     y = 0;
+    x = 600 + Math.random() * 500;
     height = 1500;
     width = 600;
     speed = 0.01;
 
-    constructor() {
-        super().loadImage('img/3. Background/Legacy/Layers/1. Light/3.png');
 
-        this.x = 600 + Math.random() * 500;
+    constructor() {
+        super().loadImage(IMAGES.WORLD.LIGHT);
         this.animate();
     }
+
+
     animate() {
             this.moveLeft()
     }

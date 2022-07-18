@@ -7,17 +7,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="fonts.css">
+    <link rel="shortcut icon" href="./img/1.Sharkie/1.IDLE/1.png" type="image/x-icon">
     <title>SHARKIE</title>
     <script src="classes/drawable-objects.class.js"></script>
     <script src="classes/movable-object.class.js"></script>
+    <script src="js/images.js"></script>
+    <script src="js/audios.js"></script>
     <script src="classes/world.class.js"></script>
     <script src="classes/background-object.class.js"></script>
     <script src="classes/throwable-object.class.js"></script>
     <script src="classes/light.class.js"></script>
     <script src="classes/coin.class.js"></script>
     <script src="classes/hearts.class.js"></script>
-
-    <script src="classes/coinbow.class.js"></script>
     <script src="classes/poison.class.js"></script>
     <script src="classes/enemy.class.js"></script>
     <script src="classes/enemy-standing.class.js"></script>
@@ -30,12 +31,14 @@
     <script src="classes/level.class.js"></script>
     <script src="levels/level1.js"></script>
     <script src="classes/keyboard.class.js"></script>
-
     <script src="js/game.js"></script>
+
+
 </head>
 
-<body onkeydown="pauseGame()">
-    <h1>MINI SHARKIES ADVENTURE</h1>
+<body onload="init()">
+    <h1 class="headline">MINI SHARKIES ADVENTURE</h1>
+    <canvas id="canvas" width="720" height="480"></canvas>
 
     <div id="startscreen">
         <div>
@@ -45,11 +48,22 @@
         </div>
         <h2 id="helpButton" onclick="openHelp()">HELP</h2>
     </div>
+    <div id="loose" class="dNone">
+        <div id="gameOverScreen">
+            <div class="tryAgain" onclick="reload()"></div>
+        </div>
+    </div>
+
+    <div id="win" class="dNone">
+        <div id="winScreen">
+            <div class="tryAgain" onclick="reload()"></div>
+        </div>
+    </div>
 
     <div id="helpscreen" class="dNone">
         <div>
             <h2>MINI SHARKIES ADVENTURE - HELP</h2>
-            <div class="helpscreenClose" onclick="closeHelp()">X</div>
+            <div class="helpscreenClose" onclick="closeHelp()" id="">X</div>
             <div class="helpTextfield">
                 <p>Help Mini Sharkie to find his way through the world of Mini Sharkies Adventure! <br>
                     Collect coins to get stronger, collect hearts to gain life and collect poison for throwing them at
@@ -104,7 +118,6 @@
         </div>
 
     </div>
-    <canvas id="canvas" width="720" height="480"></canvas>
 
 
 </body>

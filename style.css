@@ -35,10 +35,16 @@ body {
     height: 100vh;
     font-family: 'Luckiest Guy';
     margin: 0;
+    background-image: url('img/3. Background/Light/1.png');
 }
 
 canvas {
     background-color: black;
+}
+
+.headline {
+    position: absolute;
+    top: 100px;
 }
 
 #startscreen {
@@ -54,6 +60,7 @@ canvas {
 
 #startscreen h1 {
     font-size: 64px;
+
 }
 
 #startscreen div {
@@ -118,8 +125,8 @@ canvas {
     border: 4px solid white;
     border-radius: 16px;
     background-color: var(--second-background-color);
-    height: 480px;
-    width: 720px;
+    height: 400px;
+    width: 580px;
     position: relative;
 }
 
@@ -132,11 +139,12 @@ canvas {
     padding-top: 0.1px;
     padding-bottom: 0.1px;
     overflow-y: scroll;
-    height: 400px;
+    height: 320px;
 }
 
 #helpscreen h2,
-h3, table,
+h3,
+table,
 p {
     color: var(--second-color);
     padding-left: 8px;
@@ -155,7 +163,8 @@ td {
     font-size: 20px;
 }
 
-#helpscreen p, table{
+#helpscreen p,
+table {
     font-size: 18px;
     margin: 8px;
 }
@@ -182,6 +191,80 @@ td {
     opacity: 1;
 }
 
+#loose {
+    position: absolute;
+    height: 100vh;
+    width: -webkit-fill-available;
+    background-color: rgba(0, 0, 0, 0.395);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#gameOverScreen {
+    background-image: url('img/6.Botones/Tittles/Game Over/Recurso 9.png');
+    width: 720px;
+    height: 480px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+#win {
+    position: absolute;
+    height: 100vh;
+    width: -webkit-fill-available;
+    background-color: rgba(0, 0, 0, 0.395);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#winScreen {
+    background-image: url('img/6.Botones/Tittles/You win/Mesa de trabajo 1.png');
+    width: 720px;
+    height: 480px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.tryAgain {
+    background-image: url('img/6.Botones/Try again/Recurso 15.png');
+    height: calc(135px / 2);
+    width: calc(416px / 2);
+    background-repeat: no-repeat;
+    background-size: contain;
+    cursor: pointer;
+    position: absolute;
+    top: 350px;
+}
+
+.tryAgain:hover {
+    background-image: url('img/6.Botones/Try again/Recurso 17.png');
+}
+
+#fullscreen {
+    background-image: url('img/6.Botones/Full Screen/Mesa de trabajo 6.png');
+    height: calc(135px / 2);
+    width: calc(416px / 2);
+    background-repeat: no-repeat;
+    background-size: contain;
+    cursor: pointer;
+    position: absolute;
+    top: 680px;
+}
+
+#fullscreen:hover {
+    background-image: url('img/6.Botones/Full Screen/Mesa de trabajo 7.png');
+
+}
 
 .dNone {
     display: none !important;

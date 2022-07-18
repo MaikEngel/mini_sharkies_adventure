@@ -5,25 +5,17 @@ class Coinbar extends MovableObject {
     width = 50;
     world;
 
-    IMAGES_COINBAR = [
-        'img/4. Marcadores/orange/0_  copia 2.png',
-        'img/4. Marcadores/orange/20_  copia.png',
-        'img/4. Marcadores/orange/40_  copia 2.png',
-        'img/4. Marcadores/orange/60_  copia 2.png',
-        'img/4. Marcadores/orange/80_  copia 2.png',
-        'img/4. Marcadores/green/Coin/100_ copia 4.png',
-    ]
 
     constructor() {
-        super().loadImage(this.IMAGES_COINBAR[0]);
-        this.loadImages(this.IMAGES_COINBAR)
-
+        super().loadImage(IMAGES.WORLD.BARS.COINBAR[0]);
+        this.loadImages(IMAGES.WORLD.BARS.COINBAR)
         this.animate();
     }
 
+    
     animate() {
         setInterval(() => {
-            this.coinBar(this.IMAGES_COINBAR);
+            this.coinBar(IMAGES.WORLD.BARS.COINBAR);
         }, 1000 / 60);
     }
 }

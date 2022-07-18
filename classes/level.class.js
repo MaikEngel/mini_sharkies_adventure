@@ -8,7 +8,6 @@ class Level {
     level_start_x;
     level_end_x;
 
-
     
     constructor(level_start_x, level_end_x, enemies, light, backgroundObjects, coins, poisons, heart) {
         this.level_start_x = level_start_x,

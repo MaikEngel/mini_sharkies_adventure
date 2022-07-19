@@ -13,7 +13,9 @@ class Endboss extends MovableObject {
     bossSpawned = false;
     i = 0;
 
-
+    /**
+     * Create and initialize objects from the Endboss class.
+     */
     constructor() {
         super().loadImage(IMAGES.ENDBOSS.SPAWN[0]);
         this.loadImages(IMAGES.ENDBOSS.IDLE);
@@ -49,7 +51,9 @@ class Endboss extends MovableObject {
         }, 3000 + Math.random() * 1000);
     }
 
-
+    /**
+     * Starts the dead animation of the endboss and shows the win screen after one second.
+     */
     youWin() {
         this.playDeadAnimation(IMAGES.ENDBOSS.DEAD);
         if (!this.gameOver) {
@@ -59,7 +63,9 @@ class Endboss extends MovableObject {
         }
     }
 
-
+    /**
+     * Shows win screen, plays the win sound and paused the game.
+     */
     winNotification() {
         this.gameOver = true;
         document.getElementById('win').classList.remove('dNone')
@@ -68,7 +74,9 @@ class Endboss extends MovableObject {
         pauseGame();
     }
 
-
+    /**
+     * Check if the endboss is injured, move him to the right and make him invulnerable for 2 seconds.
+     */
     checkEndbossDamage() {
         if (this.isHurt()) {
             this.hurt = true;
@@ -82,7 +90,9 @@ class Endboss extends MovableObject {
         }
     }
 
-
+    /**
+     * If the endboss attacks he move to the left and the attack animation starts for 3 seconds.
+     */
     checkEndbossAttack() {
         if (this.attack == true && this.hurt == false) {
             this.playAnimation(IMAGES.ENDBOSS.ATTACK);
@@ -95,18 +105,22 @@ class Endboss extends MovableObject {
         }
     }
 
-
+    /**
+     * Spawns the endboss, plays the spawn animation and make him invulnerable for 3 seconds.
+     */
     endbossSpawn() {
         if (this.i < 10 && this.bossSpawned == true && this.attack == false) {
             this.playAnimation(IMAGES.ENDBOSS.SPAWN)
             this.i++
             setTimeout(() => {
                 this.world.invulnerableBoss
-            }, 2000);
+            }, 3000);
         }
     }
 
-
+    /**
+     * Plays the endboss idle animation and moves him to the right.
+     */
     checkEndbossIdle() {
         if (this.i >= 10 && this.bossSpawned == true && this.hurt == false && this.attack == false) {
             if (this.x < this.world.level.level_end_x) {
@@ -116,7 +130,9 @@ class Endboss extends MovableObject {
         }
     }
 
-    
+    /**
+     * The timer for the endboss attack.
+     */
     endbossAttackTimer() {
         if (this.i >= 10 && !pause) {
             this.attack = true

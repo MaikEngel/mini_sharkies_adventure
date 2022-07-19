@@ -1,6 +1,10 @@
 class ThrowableObject extends MovableObject {
 
-
+    /**
+     * Create and initialize objects from the ThrowableObject class.
+     * @param {number} x - The canvas horizontal coordinate to load the image.
+     * @param {number} y - The canvas vertical coordinate to load the image.
+     */
     constructor(x, y) {
         super().loadImage('img/1.Sharkie/4.Attack/Bubble trap/Poisoned Bubble (for whale).png');
         this.x = x;
@@ -10,21 +14,14 @@ class ThrowableObject extends MovableObject {
         this.width = 50;
     }
 
-
+    /**
+     * Throws an object.
+     */
     trow() {
         this.speedX = 20;
         this.applyPressure();
         setTimeout(() => {
             this.applyAir();
-        }, 2000);
-    }
-
-    throwLeft() {
-        this.speedY = 20;
-        this.applyPressure();
-        setInterval(() => {
-            this.y -= this.speedY;
-            this.speedY -= this.acceleration;
         }, 2000);
     }
 }

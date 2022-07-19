@@ -5,10 +5,12 @@ class Poisonbar extends MovableObject {
     width = 50;
     world;
 
+    /**
+     * Create and initialize objects from the Poisonbar class.
+     */
     constructor() {
         super().loadImage(IMAGES.WORLD.BARS.POISONBAR[0]);
         this.loadImages(IMAGES.WORLD.BARS.POISONBAR)
-
         this.animate();
     }
 

@@ -5,14 +5,16 @@ class Coinbar extends MovableObject {
     width = 50;
     world;
 
-
+    /**
+     * Create and initialize objects from the Coinbar class.
+     */
     constructor() {
         super().loadImage(IMAGES.WORLD.BARS.COINBAR[0]);
         this.loadImages(IMAGES.WORLD.BARS.COINBAR)
         this.animate();
     }
 
-    
+
     animate() {
         setInterval(() => {
             this.coinBar(IMAGES.WORLD.BARS.COINBAR);

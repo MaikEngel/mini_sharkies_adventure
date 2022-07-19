@@ -5,22 +5,38 @@ let keyboard = new Keyboard();
 let pause = true;
 let gameStartet = false
 
+
+/**
+ *  Initialized the game.
+ */
 function init() {
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
     endboss = new Endboss();
 }
 
+
+/**
+ * Reloads the game.
+ */
 function reload() {
     location.reload()
 }
 
+
+/**
+ * Starts the game.
+ */
 function startGame() {
     document.getElementById('startscreen').classList.add('dNone')
     gameStartet = true
     pauseGame()
 }
 
+
+/**
+ * Pause the game by pressing P.
+ */
 window.addEventListener('keydown', function (e) {
     var key = e.keyCode;
     if (key === 80)// p key
@@ -30,6 +46,9 @@ window.addEventListener('keydown', function (e) {
 });
 
 
+/**
+ * Pause the game and open the help screen.
+ */
 function pauseGame() {
     if (gameStartet || world.endboss.energy <= 0 || world.character.energy <= 0) {
         if (!pause) {
@@ -48,15 +67,26 @@ function pauseGame() {
 }
 
 
+/**
+ * Open the help screen.
+ */
 function openHelp() {
     document.getElementById('helpscreen').classList.remove('dNone');
 }
 
+
+/**
+ * Close the help screen.
+ */
 function closeHelp() {
     document.getElementById('helpscreen').classList.add('dNone');
     pauseGame(event);
 }
 
+
+/**
+ * Checks which key is pressed.
+ */
 window.addEventListener('keydown', (event) => {
     if (event.code == "ArrowRight" || event.code == "KeyD") {
         keyboard.RIGHT = true;
@@ -84,6 +114,9 @@ window.addEventListener('keydown', (event) => {
     }
 })
 
+/**
+ * Checks which key was pressed.
+ */
 window.addEventListener('keyup', (event) => {
     if (event.code == "ArrowRight" || event.code == "KeyD") {
         keyboard.RIGHT = false;

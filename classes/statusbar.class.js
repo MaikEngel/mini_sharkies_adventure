@@ -5,6 +5,9 @@ class Statusbar extends MovableObject {
     width = 50;
     world;
 
+    /**
+     * Create and initialize objects from the Statusbar class.
+     */
     constructor() {
         super().loadImage(IMAGES.WORLD.BARS.STATUSBAR[0]);
         this.loadImages(IMAGES.WORLD.BARS.STATUSBAR);

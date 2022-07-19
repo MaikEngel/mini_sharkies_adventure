@@ -14,7 +14,9 @@ class Character extends MovableObject {
     offsetLeft = 110;
     offsetTop = 100;
 
-
+    /**
+     * Create and initialize objects from the Character class.
+     */
     constructor() {
         super().loadImage(IMAGES.CHARACTER.IDLE[0]);
         this.loadImages(IMAGES.CHARACTER.SWIMMING);
@@ -52,7 +54,9 @@ class Character extends MovableObject {
         }, 1000 / 60);
     }
 
-
+    /**
+     * Checks whether the character is standing, swimming or attacking.
+     */
     checkMoveStatus() {
         if (this.anyKeyPressed()) {
             this.playAnimation(IMAGES.CHARACTER.SWIMMING);
@@ -67,10 +71,23 @@ class Character extends MovableObject {
         if (this.cKeyPressed() && !this.world.coolDownBubble && this.poison > 0 || this.world.holdbubbleAttack || this.world.bubbleAttack) {
             this.world.holdbubbleAttack = true;
             this.playBubbleAnimation(IMAGES.CHARACTER.BUBBLE);
+            this.resetBubbleAttack();
         }
     }
 
 
+    /**
+     * Stops the playBubbleAnimation.
+     */
+    resetBubbleAttack() {
+        setTimeout(() => {
+            this.world.holdbubbleAttack = false
+        }, 1100);
+    }
+
+    /**
+     *Slap attack sound and range.
+     */
     slapAttack() {
         this.world.slap.pause();
         this.world.slap.currentTime = 0;
@@ -79,9 +96,26 @@ class Character extends MovableObject {
         this.world.holdSlapAttack = true;
         this.offsetRight = 50;
         this.offsetLeft = 50;
+        this.resetSlapAttack();
     };
 
+    /**
+     * Reset the range of the character and activated a cool down for the slap.
+     */
+    resetSlapAttack() {
+        setTimeout(() => {
+            this.world.holdSlapAttack = false
+            this.offsetRight = 110
+            this.offsetLeft = 110;
+            setTimeout(() => {
+                this.world.coolDownSlap = false
+            }, 500);
+        }, 100);
+    }
 
+    /**
+     * Starts the dead animation and shows the game over screen after one second.
+     */
     youLose() {
         this.playDeadAnimation(IMAGES.CHARACTER.DEAD);
         if (!this.gameOver) {
@@ -91,7 +125,9 @@ class Character extends MovableObject {
         }
     }
 
-
+    /**
+     * Shows game over screen, plays the lose sound and paused the game.
+     */
     loseNotification() {
         this.gameOver = true;
         document.getElementById('loose').classList.remove('dNone')
@@ -100,14 +136,18 @@ class Character extends MovableObject {
         pauseGame();
     }
 
-
+    /**
+     * Checks if the character is hurt and plays the hurt animation.
+     */
     checkDamage() {
         if (this.isHurt()) {
             this.playAnimation(IMAGES.CHARACTER.HURT)
         }
     }
 
-
+    /**
+     * Checks which direction the character is swimming.
+     */
     checkMoveDirection() {
         if (this.rightKeyPressed() && this.x < this.world.level.level_end_x && !this.world.holdSlapAttack) {
             this.swimRight();
@@ -124,32 +164,44 @@ class Character extends MovableObject {
     }
 
 
+    /**
+     * Character is moving and looking to the right and the swimming sound plays.
+     */
     swimRight() {
         this.moveRight();
         this.otherDirection = false;
         this.world.swim_sound.play();
     }
 
-
+    /**
+     * Character is moving and looking to the left and the swimming sound plays.
+     */
     swimLeft() {
         this.moveLeft();
         this.otherDirection = true;
         this.world.swim_sound.play();
     }
 
-
+    /**
+     * Character is moving up and the swimming sound plays.
+     */
     swimUp() {
         this.moveUp();
         this.world.swim_sound.play();
     }
 
-
+    /**
+     * Character is moving down and the swimming sound plays.
+     */
     swimDown() {
         this.moveDown();
         this.world.swim_sound.play();
     }
 
 
+    /**
+     * Speed Up the Character by pressing the left shift button.
+     */
     checkSpeedUp() {
         if (this.shiftLeftKeyPressed()) {// Speed up the Character
             this.speed = 8;
@@ -159,7 +211,9 @@ class Character extends MovableObject {
         }
     }
 
-
+    /**
+     * Strengthened the Character by collecting 5 Coins.
+     */
     checkPowerUp() {
         if (this.coinAmount == 5) {
             if (!this.morePower) {

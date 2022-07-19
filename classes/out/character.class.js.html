@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: character.class.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: character.class.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>class Character extends MovableObject {
+    world;
+    height = 200;
+    width = 250;
+    x = 20;
+    y = 50;
+    speed = 4;
+    currentBubbleImage = 0;
+    currentSlapImage = 0;
+    firstImage = true;
+    morePower = false
+    offsetRight = 110;
+    offsetBottom = 20;
+    offsetLeft = 110;
+    offsetTop = 100;
+
+    /**
+     * Create and initialize objects from the Character class.
+     */
+    constructor() {
+        super().loadImage(IMAGES.CHARACTER.IDLE[0]);
+        this.loadImages(IMAGES.CHARACTER.SWIMMING);
+        this.loadImages(IMAGES.CHARACTER.IDLE);
+        this.loadImages(IMAGES.CHARACTER.SLAP);
+        this.loadImages(IMAGES.CHARACTER.BUBBLE);
+        this.loadImages(IMAGES.CHARACTER.DEAD);
+        this.loadImages(IMAGES.CHARACTER.HURT);
+        this.animate();
+    }
+
+
+    animate() {
+        setInterval(() => {
+            if (!pause) {
+                if (this.isDead()) {
+                    this.youLose();
+                } else {
+                    this.checkMoveStatus()
+                }
+            }
+        }, 150);
+
+
+        setInterval(() => {
+            if (!pause) {
+                if (!this.isDead()) {
+                    this.checkDamage();
+                    this.checkSpeedUp();
+                    this.checkMoveDirection();
+                    this.checkPowerUp();
+                    this.world.camera_x = -this.x;
+                }
+            }
+        }, 1000 / 60);
+    }
+
+    /**
+     * Checks whether the character is standing, swimming or attacking.
+     */
+    checkMoveStatus() {
+        if (this.anyKeyPressed()) {
+            this.playAnimation(IMAGES.CHARACTER.SWIMMING);
+        }
+        if (this.noKeyPressed()) {
+            this.playAnimation(IMAGES.CHARACTER.IDLE);
+        }
+        if (this.spaceKeyPressed() &amp;&amp; !this.world.coolDownSlap || this.world.holdSlapAttack) {
+            this.playSlapAnimation(IMAGES.CHARACTER.SLAP);
+            this.slapAttack()
+        }
+        if (this.cKeyPressed() &amp;&amp; !this.world.coolDownBubble &amp;&amp; this.poison > 0 || this.world.holdbubbleAttack || this.world.bubbleAttack) {
+            this.world.holdbubbleAttack = true;
+            this.playBubbleAnimation(IMAGES.CHARACTER.BUBBLE);
+            this.resetBubbleAttack();
+        }
+    }
+
+
+    /**
+     * Stops the playBubbleAnimation.
+     */
+    resetBubbleAttack() {
+        setTimeout(() => {
+            this.world.holdbubbleAttack = false
+        }, 1100);
+    }
+
+    /**
+     *Slap attack sound and range.
+     */
+    slapAttack() {
+        this.world.slap.pause();
+        this.world.slap.currentTime = 0;
+        this.world.slap.play();
+        this.world.coolDownSlap = true;
+        this.world.holdSlapAttack = true;
+        this.offsetRight = 50;
+        this.offsetLeft = 50;
+        this.resetSlapAttack();
+    };
+
+    /**
+     * Reset the range of the character and activated a cool down for the slap.
+     */
+    resetSlapAttack() {
+        setTimeout(() => {
+            this.world.holdSlapAttack = false
+            this.offsetRight = 110
+            this.offsetLeft = 110;
+            setTimeout(() => {
+                this.world.coolDownSlap = false
+            }, 500);
+        }, 100);
+    }
+
+    /**
+     * Starts the dead animation and shows the game over screen after one second.
+     */
+    youLose() {
+        this.playDeadAnimation(IMAGES.CHARACTER.DEAD);
+        if (!this.gameOver) {
+            setTimeout(() => {
+                this.loseNotification();
+            }, 1000);
+        }
+    }
+
+    /**
+     * Shows game over screen, plays the lose sound and paused the game.
+     */
+    loseNotification() {
+        this.gameOver = true;
+        document.getElementById('loose').classList.remove('dNone')
+        world.character.world.bossFight.pause()
+        world.character.world.lose_sound.play()
+        pauseGame();
+    }
+
+    /**
+     * Checks if the character is hurt and plays the hurt animation.
+     */
+    checkDamage() {
+        if (this.isHurt()) {
+            this.playAnimation(IMAGES.CHARACTER.HURT)
+        }
+    }
+
+    /**
+     * Checks which direction the character is swimming.
+     */
+    checkMoveDirection() {
+        if (this.rightKeyPressed() &amp;&amp; this.x &lt; this.world.level.level_end_x &amp;&amp; !this.world.holdSlapAttack) {
+            this.swimRight();
+        }
+        if (this.leftKeyPressed() &amp;&amp; this.x > this.world.level.level_start_x &amp;&amp; !this.world.holdSlapAttack) {
+            this.swimLeft();
+        }
+        if (this.upKeyPressed() &amp;&amp; this.y > -110 &amp;&amp; !this.world.holdSlapAttack) {
+            this.swimUp();
+        }
+        if (this.downKeyPressed() &amp;&amp; this.y &lt; 250 &amp;&amp; !this.world.holdSlapAttack) {
+            this.swimDown();
+        }
+    }
+
+
+    /**
+     * Character is moving and looking to the right and the swimming sound plays.
+     */
+    swimRight() {
+        this.moveRight();
+        this.otherDirection = false;
+        this.world.swim_sound.play();
+    }
+
+    /**
+     * Character is moving and looking to the left and the swimming sound plays.
+     */
+    swimLeft() {
+        this.moveLeft();
+        this.otherDirection = true;
+        this.world.swim_sound.play();
+    }
+
+    /**
+     * Character is moving up and the swimming sound plays.
+     */
+    swimUp() {
+        this.moveUp();
+        this.world.swim_sound.play();
+    }
+
+    /**
+     * Character is moving down and the swimming sound plays.
+     */
+    swimDown() {
+        this.moveDown();
+        this.world.swim_sound.play();
+    }
+
+
+    /**
+     * Speed Up the Character by pressing the left shift button.
+     */
+    checkSpeedUp() {
+        if (this.shiftLeftKeyPressed()) {// Speed up the Character
+            this.speed = 8;
+        }
+        if (!this.shiftLeftKeyPressed()) {// Normal speed 
+            this.speed = 4;
+        }
+    }
+
+    /**
+     * Strengthened the Character by collecting 5 Coins.
+     */
+    checkPowerUp() {
+        if (this.coinAmount == 5) {
+            if (!this.morePower) {
+                this.world.powerup_sound.play()
+            }
+            this.height = 250;
+            this.width = 300;
+            this.morePower = true;
+        }
+
+        if (this.coinAmount &lt; 5) {
+            this.height = 200;
+            this.width = 250;
+            this.morePower = false;
+        }
+    }
+
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="backgroundObject.html">backgroundObject</a></li><li><a href="Character.html">Character</a></li><li><a href="Coin.html">Coin</a></li><li><a href="Coinbar.html">Coinbar</a></li><li><a href="Endboss.html">Endboss</a></li><li><a href="Enemy.html">Enemy</a></li><li><a href="Heart.html">Heart</a></li><li><a href="Level.html">Level</a></li><li><a href="Light.html">Light</a></li><li><a href="Poison.html">Poison</a></li><li><a href="Poisonbar.html">Poisonbar</a></li><li><a href="StandingEnemy.html">StandingEnemy</a></li><li><a href="Statusbar.html">Statusbar</a></li><li><a href="StatusbarEndboss.html">StatusbarEndboss</a></li><li><a href="ThrowableObject.html">ThrowableObject</a></li><li><a href="World.html">World</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Tue Jul 19 2022 20:13:30 GMT+0200 (Mitteleuropäische Sommerzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

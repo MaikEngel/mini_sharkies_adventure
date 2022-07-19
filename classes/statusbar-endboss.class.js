@@ -7,7 +7,9 @@ class StatusbarEndboss extends MovableObject {
 
 
 
-
+    /**
+     * Create and initialize objects from the StatusbarEndboss class.
+     */
     constructor() {
         super().loadImage(IMAGES.WORLD.BARS.ENDBOSSBAR[0]);
         this.loadImages(IMAGES.WORLD.BARS.ENDBOSSBAR);

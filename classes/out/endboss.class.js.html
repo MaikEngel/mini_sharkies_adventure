@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: endboss.class.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: endboss.class.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>class Endboss extends MovableObject {
+    world;
+    height = 500;
+    width = 600;
+    y = -120;
+    speed = 15;
+    offsetRight = 30;
+    offsetBottom = 50;
+    offsetLeft = 50;
+    offsetTop = 250;
+    hurt = false;
+    attack = false;
+    bossSpawned = false;
+    i = 0;
+
+    /**
+     * Create and initialize objects from the Endboss class.
+     */
+    constructor() {
+        super().loadImage(IMAGES.ENDBOSS.SPAWN[0]);
+        this.loadImages(IMAGES.ENDBOSS.IDLE);
+        this.loadImages(IMAGES.ENDBOSS.SPAWN);
+        this.loadImages(IMAGES.ENDBOSS.HURT);
+        this.loadImages(IMAGES.ENDBOSS.ATTACK);
+        this.loadImages(IMAGES.ENDBOSS.DEAD)
+        this.x = 2000;
+        setTimeout(() => {
+            this.animate()
+        }, 1500);
+    }
+
+
+    animate() {
+        setInterval(() => {
+            if (!pause) {
+                if (this.isDead()) {
+                    this.youWin();
+                }
+                else {
+                    this.checkEndbossDamage();
+                    this.checkEndbossAttack();
+                    this.endbossSpawn();
+                    this.checkEndbossIdle();
+                }
+            }
+        }, 150);
+
+
+        setInterval(() => {
+            this.endbossAttackTimer()
+        }, 3000 + Math.random() * 1000);
+    }
+
+    /**
+     * Starts the dead animation of the endboss and shows the win screen after one second.
+     */
+    youWin() {
+        this.playDeadAnimation(IMAGES.ENDBOSS.DEAD);
+        if (!this.gameOver) {
+            setTimeout(() => {
+                this.winNotification()
+            }, 1000);
+        }
+    }
+
+    /**
+     * Shows win screen, plays the win sound and paused the game.
+     */
+    winNotification() {
+        this.gameOver = true;
+        document.getElementById('win').classList.remove('dNone')
+        world.endboss.world.bossFight.pause()
+        world.endboss.world.win_sound.play()
+        pauseGame();
+    }
+
+    /**
+     * Check if the endboss is injured, move him to the right and make him invulnerable for 2 seconds.
+     */
+    checkEndbossDamage() {
+        if (this.isHurt()) {
+            this.hurt = true;
+            this.playAnimation(IMAGES.ENDBOSS.HURT)
+            if (this.x &lt; this.world.level.level_end_x) {
+                this.moveRight();
+            }
+            setTimeout(() => {
+                this.hurt = false;
+            }, 2000);
+        }
+    }
+
+    /**
+     * If the endboss attacks he move to the left and the attack animation starts for 3 seconds.
+     */
+    checkEndbossAttack() {
+        if (this.attack == true &amp;&amp; this.hurt == false) {
+            this.playAnimation(IMAGES.ENDBOSS.ATTACK);
+            if (this.x > this.world.level.level_start_x) {
+                this.moveLeft();
+                setTimeout(() => {
+                    this.attack = false;
+                }, 3000);
+            }
+        }
+    }
+
+    /**
+     * Spawns the endboss, plays the spawn animation and make him invulnerable for 3 seconds.
+     */
+    endbossSpawn() {
+        if (this.i &lt; 10 &amp;&amp; this.bossSpawned == true &amp;&amp; this.attack == false) {
+            this.playAnimation(IMAGES.ENDBOSS.SPAWN)
+            this.i++
+            setTimeout(() => {
+                this.world.invulnerableBoss
+            }, 3000);
+        }
+    }
+
+    /**
+     * Plays the endboss idle animation and moves him to the right.
+     */
+    checkEndbossIdle() {
+        if (this.i >= 10 &amp;&amp; this.bossSpawned == true &amp;&amp; this.hurt == false &amp;&amp; this.attack == false) {
+            if (this.x &lt; this.world.level.level_end_x) {
+                this.moveRight();
+            }
+            this.playAnimation(IMAGES.ENDBOSS.IDLE)
+        }
+    }
+
+    /**
+     * The timer for the endboss attack.
+     */
+    endbossAttackTimer() {
+        if (this.i >= 10 &amp;&amp; !pause) {
+            this.attack = true
+        }
+    }
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="backgroundObject.html">backgroundObject</a></li><li><a href="Character.html">Character</a></li><li><a href="Coin.html">Coin</a></li><li><a href="Coinbar.html">Coinbar</a></li><li><a href="Endboss.html">Endboss</a></li><li><a href="Enemy.html">Enemy</a></li><li><a href="Heart.html">Heart</a></li><li><a href="Level.html">Level</a></li><li><a href="Light.html">Light</a></li><li><a href="Poison.html">Poison</a></li><li><a href="Poisonbar.html">Poisonbar</a></li><li><a href="StandingEnemy.html">StandingEnemy</a></li><li><a href="Statusbar.html">Statusbar</a></li><li><a href="StatusbarEndboss.html">StatusbarEndboss</a></li><li><a href="ThrowableObject.html">ThrowableObject</a></li><li><a href="World.html">World</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Tue Jul 19 2022 20:13:30 GMT+0200 (Mitteleuropäische Sommerzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

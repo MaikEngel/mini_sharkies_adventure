@@ -5,7 +5,9 @@ class Light extends MovableObject {
     width = 600;
     speed = 0.01;
 
-
+    /**
+     * Create and initialize objects from the Light class.
+     */
     constructor() {
         super().loadImage(IMAGES.WORLD.LIGHT);
         this.animate();
@@ -13,6 +15,6 @@ class Light extends MovableObject {
 
 
     animate() {
-            this.moveLeft()
+        this.moveLeft()
     }
 }

@@ -263,9 +263,66 @@ table {
 
 #fullscreen:hover {
     background-image: url('img/6.Botones/Full Screen/Mesa de trabajo 7.png');
-
 }
 
 .dNone {
     display: none !important;
+}
+
+@media only screen and (max-width: 720px) {
+    canvas {
+        width: 100%;
+    }
+
+    .headline {
+        display: none !important;
+    }
+
+    #startscreen {
+        width: 100%;
+    }
+
+    #startscreen {
+        width: 100%;
+    }
+
+    #startscreen div img {
+        display: none;
+    }
+}
+
+@media only screen and (max-height: 480px) {
+    canvas {
+        height: 100vh;
+    }
+
+    .headline {
+        display: none !important;
+    }
+
+    #startscreen {
+        height: 100vh;
+        text-align: center;
+    }
+
+    #startscreen div {
+        top: 0px;
+    }
+
+    #startbutton {
+        top: 250px !important;
+
+    }
+
+    #startscreen div img {
+        display: none;
+    }
+
+    .helpTextfield {
+        height: 234px;
+    }
+
+    #helpscreen div:first-child {
+        height: 316px;
+    }
 }

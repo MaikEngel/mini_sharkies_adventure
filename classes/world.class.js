@@ -323,7 +323,7 @@ class World {
                     return true;
                 } else {
                     if (this.throwableObject.length > 0 && bubble.isColliding(enemy)) {
-                        checkWhoIsAttacked();
+                        this.checkWhoIsAttacked(enemy, i);
                     }
                 }
             })
@@ -333,9 +333,9 @@ class World {
     /**
      * Checks woh is attacked
      */
-    checkWhoIsAttacked() {
+    checkWhoIsAttacked(enemy, i) {
         if ((enemy instanceof Endboss && this.invulnerableBoss == false)) {
-            bossDamage();
+            this.bossDamage();
         } if (enemy instanceof Enemy || enemy instanceof StandingEnemy) {
             this.level.enemies.splice(i, 1)
         }

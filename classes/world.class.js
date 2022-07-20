@@ -334,7 +334,7 @@ class World {
      * Checks woh is attacked
      */
     checkWhoIsAttacked(enemy, i) {
-        if ((enemy instanceof Endboss && this.invulnerableBoss == false)) {
+        if ((enemy instanceof Endboss && this.invulnerableBoss == false && this.spawn)) {
             this.bossDamage();
         } if (enemy instanceof Enemy || enemy instanceof StandingEnemy) {
             this.level.enemies.splice(i, 1)

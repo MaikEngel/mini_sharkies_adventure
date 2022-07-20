@@ -42,11 +42,6 @@ canvas {
     background-color: black;
 }
 
-.headline {
-    position: absolute;
-    top: 100px;
-}
-
 #startscreen {
     object-fit: cover;
     position: absolute;
@@ -56,6 +51,7 @@ canvas {
     background-position: center;
     display: flex;
     justify-content: center;
+    text-align: center;
 }
 
 #startscreen h1 {
@@ -72,7 +68,7 @@ canvas {
 }
 
 #startscreen div img {
-    width: 600px;
+    height: 400%;
     position: absolute;
     top: -100px;
     left: -240px;

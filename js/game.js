@@ -28,9 +28,10 @@ function reload() {
  * Starts the game.
  */
 function startGame() {
-    document.getElementById('startscreen').classList.add('dNone')
-    gameStartet = true
-    pauseGame()
+    document.getElementById('startscreen').classList.add('dNone');
+    document.getElementById('canvas').classList.remove('dNone');
+    gameStartet = true;
+    pauseGame();
 }
 
 
